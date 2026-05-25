@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+const groupOrder = ['PI', 'Project Scientist', 'Postdoc', 'Grad Student', 'Clinical', 'Staff', 'Undergraduate', 'Alumni'] as const;
+
+const all = await getCollection('team');
+const sorted = all.sort((a, b) => {
+  const gi = groupOrder.indexOf(a.data.group as any) - groupOrder.indexOf(b.data.group as any);
+  if (gi !== 0) return gi;
+  return a.data.order - b.data.order;
+});
+
+const grouped: Record<string, typeof sorted> = {};
+for (const m of sorted) {
+  const g = m.data.group;
+  if (!grouped[g]) grouped[g] = [] as typeof sorted;
+  grouped[g].push(m);
+}
+
+const rendered: Record<string, Array<{ member: typeof sorted[number]; Content: any }>> = {};
+for (const group of Object.keys(grouped)) {
+  rendered[group] = [];
+  for (const member of grouped[group]) {
+    const { Content } = await render(member);
+    rendered[group].push({ member, Content });
+  }
+}
+
+const groupLabel: Record<string, string> = {
+  'PI': 'Principal Investigator',
+  'Project Scientist': 'Project Scientists',
+  'Postdoc': 'Postdoctoral Fellows',
+  'Grad Student': 'Graduate Students',
+  'Clinical': 'Clinical Research',
+  'Staff': 'Staff Research Associates',
+  'Undergraduate': 'UCLA Undergraduates',
+  'Alumni': 'Alumni',
+};
+---
+
+<BaseLayout title="Team" description="Members of the Hinman Lab at UCLA Neurology.">
+  <section class="border-b border-[color:var(--color-rule)]">
+    <div class="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-20">
+      <p class="text-xs uppercase tracking-[0.22em] text-[color:var(--color-faint)]">People</p>
+      <h1 class="mt-3 font-serif text-4xl tracking-tight sm:text-5xl">The lab</h1>
+      <p class="mt-4 max-w-2xl text-[color:var(--color-muted)]">
+        A team of physician-scientists, postdoctoral fellows, graduate and undergraduate students,
+        and staff working together on cerebrovascular biology, white matter injury, and the
+        molecular interface between stroke and neurodegeneration.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="mx-auto max-w-5xl px-5 py-12 sm:px-8 sm:py-16">
+      {groupOrder.map((g) => rendered[g] && (
+        <div class="mt-14 first:mt-0">
+          <h2 class="border-b border-[color:var(--color-ink)] pb-2 font-serif text-2xl tracking-tight">
+            {groupLabel[g]}
+          </h2>
+          <ul class="mt-8 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {rendered[g].map(({ member, Content }) => (
+              <li>
+                {member.data.photo ? (
+                  <img
+                    src={member.data.photo}
+                    alt={`Portrait of ${member.data.name}`}
+                    width="240"
+                    height="240"
+                    loading="lazy"
+                    class="aspect-square w-full max-w-[12rem] rounded-md object-cover grayscale transition-[filter] duration-300 hover:grayscale-0"
+                  />
+                ) : (
+                  <div class="aspect-square w-full max-w-[12rem] rounded-md bg-[color:var(--color-tint)]" aria-hidden="true"></div>
+                )}
+                <h3 class="mt-4 font-serif text-lg tracking-tight">{member.data.name}</h3>
+                <p class="text-sm text-[color:var(--color-muted)]">{member.data.role}</p>
+                <div class="prose mt-2 max-w-none text-sm text-[color:var(--color-ink)]">
+                  <Content />
+                </div>
+                {(member.data.linkedin || member.data.twitter || member.data.email || member.data.orcid || member.data.google_scholar) && (
+                  <ul class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+                    {member.data.email && (
+                      <li><a href={`mailto:${member.data.email}`} class="no-underline">Email</a></li>
+                    )}
+                    {member.data.linkedin && (
+                      <li><a href={member.data.linkedin} class="no-underline" rel="external noopener">LinkedIn</a></li>
+                    )}
+                    {member.data.twitter && (
+                      <li><a href={member.data.twitter} class="no-underline" rel="external noopener">X</a></li>
+                    )}
+                    {member.data.google_scholar && (
+                      <li><a href={member.data.google_scholar} class="no-underline" rel="external noopener">Scholar</a></li>
+                    )}
+                    {member.data.orcid && (
+                      <li><a href={`https://orcid.org/${member.data.orcid}`} class="no-underline" rel="external noopener">ORCID</a></li>
+                    )}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

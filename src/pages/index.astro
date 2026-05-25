@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPubs = await getCollection('publications');
+const sortedPubs = allPubs.sort((a, b) => {
+  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  return (b.data.month ?? '').localeCompare(a.data.month ?? '');
+});
+const latestPubs = sortedPubs.slice(0, 3);
+
+const allNews = await getCollection('news');
+const latestNews = allNews
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const researchAreas = (await getCollection('research'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+---
+
+<BaseLayout title="The Hinman Lab — UCLA Neurology">
+  <!-- Hero -->
+  <section class="border-b border-[color:var(--color-rule)]">
+    <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
+      <p class="text-xs uppercase tracking-[0.22em] text-[color:var(--color-faint)]">
+        UCLA · David Geffen School of Medicine
+      </p>
+      <h1 class="mt-4 max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-[color:var(--color-ink)] sm:text-5xl">
+        Repairing the brain after stroke. Halting neurodegeneration.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-[color:var(--color-muted)]">
+        The Hinman Lab is a translational neuroscience group studying the molecular pathways
+        that drive the two most common neurologic disorders &mdash; <strong>stroke</strong> and
+        <strong>dementia</strong> &mdash; and the substantial overlap between them.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/research/" class="inline-flex items-center rounded-md bg-[color:var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white no-underline hover:bg-[color:var(--color-accent-hover)]">
+          Our research →
+        </a>
+        <a href="/publications/" class="inline-flex items-center rounded-md border border-[color:var(--color-rule)] px-5 py-2.5 text-sm font-medium text-[color:var(--color-ink)] no-underline hover:border-[color:var(--color-accent)]">
+          Publications
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research areas -->
+  {researchAreas.length > 0 && (
+    <section class="border-b border-[color:var(--color-rule)]">
+      <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+        <div class="flex items-end justify-between">
+          <h2 class="text-2xl font-semibold tracking-tight">Research focus</h2>
+          <a href="/research/" class="text-sm no-underline">All research →</a>
+        </div>
+        <div class="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
+          {researchAreas.map((area) => (
+            <article class="border-t border-[color:var(--color-ink)] pt-4">
+              <h3 class="text-lg font-semibold tracking-tight">{area.data.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-[color:var(--color-muted)]">
+                {area.data.summary}
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Latest publication / news -->
+  <section class="border-b border-[color:var(--color-rule)]">
+    <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-2">
+        <div>
+          <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-semibold tracking-tight">Recent publications</h2>
+            <a href="/publications/" class="text-sm no-underline">All →</a>
+          </div>
+          <ul class="mt-6 space-y-6">
+            {latestPubs.map((pub) => (
+              <li class="border-t border-[color:var(--color-rule)] pt-4">
+                <p class="text-xs uppercase tracking-[0.14em] text-[color:var(--color-faint)]">
+                  {pub.data.journal} · {pub.data.year}
+                </p>
+                <h3 class="mt-1 font-serif text-base leading-snug text-[color:var(--color-ink)]">
+                  <a href={`/publications/#${pub.id}`} class="no-underline hover:underline">
+                    {pub.data.title.replace(/\.$/, '')}
+                  </a>
+                </h3>
+                <p class="mt-1 text-xs leading-relaxed text-[color:var(--color-muted)]">
+                  {pub.data.authors}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <div class="flex items-end justify-between">
+            <h2 class="text-2xl font-semibold tracking-tight">Lab news</h2>
+            <a href="/news/" class="text-sm no-underline">All →</a>
+          </div>
+          {latestNews.length > 0 ? (
+            <ul class="mt-6 space-y-6">
+              {latestNews.map((item) => (
+                <li class="border-t border-[color:var(--color-rule)] pt-4">
+                  <p class="text-xs uppercase tracking-[0.14em] text-[color:var(--color-faint)]">
+                    {item.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </p>
+                  <h3 class="mt-1 font-serif text-base leading-snug text-[color:var(--color-ink)]">
+                    {item.data.title}
+                  </h3>
+                  {item.data.summary && (
+                    <p class="mt-1 text-sm leading-relaxed text-[color:var(--color-muted)]">
+                      {item.data.summary}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="mt-6 text-sm text-[color:var(--color-muted)]">
+              Updates from the lab will appear here soon.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Join CTA -->
+  <section>
+    <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+      <div class="rounded-lg border border-[color:var(--color-rule)] bg-[color:var(--color-tint)] p-8 sm:p-12">
+        <h2 class="font-serif text-2xl tracking-tight">Join the lab</h2>
+        <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">
+          We are currently recruiting postdoctoral fellows, staff research associates, and UCLA
+          undergraduates interested in cerebrovascular biology, neurodegeneration, and translational
+          stroke research.
+        </p>
+        <a href="/join/" class="mt-5 inline-flex items-center text-sm font-medium no-underline">
+          Open positions →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

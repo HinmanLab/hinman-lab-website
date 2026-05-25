@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4", "Source Serif Pro", ui-serif, Georgia, serif;
+
+  /* Restrained academic palette */
+  --color-ink: #111827;            /* near-black text */
+  --color-muted: #4b5563;          /* secondary text */
+  --color-faint: #9ca3af;          /* tertiary */
+  --color-rule: #e5e7eb;           /* hairlines */
+  --color-canvas: #ffffff;
+  --color-tint: #f8fafc;           /* cards / surfaces */
+
+  /* Single accent — slate-leaning blue inspired by UCLA blue without going neon */
+  --color-accent: #1f3a8a;         /* primary link / heading accent */
+  --color-accent-hover: #14276b;
+  --color-accent-soft: #eef2ff;    /* soft tinted backgrounds */
+
+  /* Restrained gold for tiny highlights only */
+  --color-gold: #b08a3c;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-canvas);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+/* Standardized prose links */
+a {
+  color: var(--color-accent);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+/* Subtle focus ring for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduce-motion users get no smooth scroll */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}

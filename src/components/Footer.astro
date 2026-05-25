@@ -1,0 +1,40 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-24 border-t border-[color:var(--color-rule)] bg-[color:var(--color-tint)]">
+  <div class="mx-auto max-w-6xl px-5 py-12 sm:px-8">
+    <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
+      <div>
+        <p class="font-serif text-lg text-[color:var(--color-ink)]">The Hinman Lab</p>
+        <p class="mt-2 text-sm text-[color:var(--color-muted)]">
+          UCLA Department of Neurology<br />
+          David Geffen School of Medicine
+        </p>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--color-faint)]">Contact</p>
+        <p class="mt-2 text-sm text-[color:var(--color-muted)]">
+          <a href="tel:310-825-7802" class="no-underline">310-825-7802</a><br />
+          <a href="/contact/" class="no-underline">Get in touch</a>
+        </p>
+      </div>
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--color-faint)]">Funding</p>
+        <p class="mt-2 text-sm text-[color:var(--color-muted)]">
+          Supported by the National Institutes of Health (NINDS, NIA) and private foundation partners.
+        </p>
+      </div>
+    </div>
+    <div class="mt-10 flex flex-col items-start justify-between gap-3 border-t border-[color:var(--color-rule)] pt-6 text-xs text-[color:var(--color-faint)] sm:flex-row sm:items-center">
+      <p>© {year} The Hinman Lab · UCLA</p>
+      <p>
+        <a href="https://www.linkedin.com/in/jason-hinman-5a73a441/" class="no-underline">LinkedIn</a>
+        <span class="px-2">·</span>
+        <a href="https://twitter.com/HinmanLabUCLA" class="no-underline">X / Twitter</a>
+        <span class="px-2">·</span>
+        <a href="https://orcid.org/0000-0002-0872-5044" class="no-underline">ORCID</a>
+      </p>
+    </div>
+  </div>
+</footer>

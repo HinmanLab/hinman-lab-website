@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+const areas = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+const funding = (await getCollection('funding')).sort((a, b) => {
+  if (a.data.active !== b.data.active) return a.data.active ? -1 : 1;
+  return (b.data.start ?? '').localeCompare(a.data.start ?? '');
+});
+
+const rendered = await Promise.all(
+  areas.map(async (a) => ({ area: a, Content: (await render(a)).Content }))
+);
+---
+
+<BaseLayout title="Research" description="Research programs in the Hinman Lab — cerebrovascular biology, white matter injury, neurovascular contributions to tauopathy, and intracranial atherosclerosis.">
+  <section class="border-b border-[color:var(--color-rule)]">
+    <div class="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-20">
+      <p class="text-xs uppercase tracking-[0.22em] text-[color:var(--color-faint)]">Research</p>
+      <h1 class="mt-3 font-serif text-4xl tracking-tight sm:text-5xl">
+        Translational research at the intersection of stroke and dementia
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed text-[color:var(--color-muted)]">
+        Together, stroke and dementia affect more than 6 million people in the United States, with
+        growing recognition of significant overlap between vascular brain injury and neurodegenerative
+        conditions. Our work focuses on identifying molecular pathways that can translate to
+        diagnostics and therapeutics for these disorders.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="mx-auto max-w-4xl px-5 py-12 sm:px-8 sm:py-16">
+      {rendered.map(({ area, Content }) => (
+        <article class="border-t border-[color:var(--color-ink)] py-10 first:border-t-0 first:pt-0">
+          <h2 class="font-serif text-2xl tracking-tight">{area.data.title}</h2>
+          <p class="mt-3 text-base leading-relaxed text-[color:var(--color-muted)]">
+            {area.data.summary}
+          </p>
+          <div class="prose mt-4 max-w-none text-[color:var(--color-ink)]">
+            <Content />
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {funding.length > 0 && (
+    <section class="border-t border-[color:var(--color-rule)] bg-[color:var(--color-tint)]">
+      <div class="mx-auto max-w-4xl px-5 py-12 sm:px-8 sm:py-16">
+        <h2 class="font-serif text-2xl tracking-tight">Active funding</h2>
+        <p class="mt-2 text-sm text-[color:var(--color-muted)]">Selected current and recent awards supporting research in the lab.</p>
+        <ul class="mt-8 divide-y divide-[color:var(--color-rule)]">
+          {funding.map((g) => (
+            <li class="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[10rem_1fr] sm:gap-6">
+              <div class="text-sm font-medium text-[color:var(--color-ink)]">
+                {g.data.grant}
+                {!g.data.active && (
+                  <span class="ml-2 rounded-full bg-white px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-[color:var(--color-faint)]">past</span>
+                )}
+              </div>
+              <div>
+                <p class="text-sm text-[color:var(--color-ink)]">{g.data.title}</p>
+                <p class="mt-0.5 text-xs text-[color:var(--color-muted)]">
+                  {g.data.agency}
+                  {g.data.role && <> · {g.data.role}</>}
+                  {g.data.start && <> · {g.data.start}{g.data.end ? `–${g.data.end}` : '–present'}</>}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+</BaseLayout>

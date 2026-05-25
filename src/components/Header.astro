@@ -1,0 +1,91 @@
+---
+const { pathname } = Astro.url;
+const nav = [
+  { href: '/research/', label: 'Research' },
+  { href: '/publications/', label: 'Publications' },
+  { href: '/team/', label: 'Team' },
+  { href: '/news/', label: 'News' },
+  { href: '/join/', label: 'Join' },
+  { href: '/contact/', label: 'Contact' },
+];
+
+function isActive(href: string) {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(href);
+}
+---
+
+<header class="border-b border-[color:var(--color-rule)] bg-white">
+  <div class="mx-auto max-w-6xl px-5 sm:px-8">
+    <div class="flex h-16 items-center justify-between gap-6">
+      <a href="/" class="flex items-baseline gap-2 no-underline">
+        <span class="font-serif text-xl tracking-tight text-[color:var(--color-ink)]">
+          Hinman Lab
+        </span>
+        <span class="hidden text-xs uppercase tracking-[0.18em] text-[color:var(--color-muted)] sm:inline">
+          UCLA · Neurology
+        </span>
+      </a>
+
+      <button
+        id="nav-toggle"
+        type="button"
+        aria-label="Open navigation"
+        aria-expanded="false"
+        aria-controls="nav-menu"
+        class="inline-flex h-9 w-9 items-center justify-center rounded text-[color:var(--color-ink)] md:hidden"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+
+      <nav id="nav-menu" class="hidden md:flex md:items-center md:gap-1" aria-label="Primary">
+        {nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'rounded px-3 py-1.5 text-sm no-underline transition-colors',
+              isActive(item.href)
+                ? 'text-[color:var(--color-accent)]'
+                : 'text-[color:var(--color-muted)] hover:text-[color:var(--color-ink)]',
+            ]}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    </div>
+
+    <nav id="nav-menu-mobile" class="hidden border-t border-[color:var(--color-rule)] py-2 md:hidden" aria-label="Primary mobile">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'block px-2 py-2 text-sm no-underline',
+            isActive(item.href)
+              ? 'text-[color:var(--color-accent)]'
+              : 'text-[color:var(--color-ink)]',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-menu-mobile');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const isOpen = !menu.classList.contains('hidden');
+      menu.classList.toggle('hidden');
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+  }
+</script>
