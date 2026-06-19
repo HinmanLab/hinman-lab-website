@@ -35,6 +35,7 @@ const team = defineCollection({
     email: z.string().nullable().optional(),
     orcid: z.string().nullable().optional(),
     google_scholar: z.string().url().nullable().optional(),
+    easton_url: z.string().url().nullable().optional(),
   }),
 });
 

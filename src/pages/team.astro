@@ -7,6 +7,16 @@ const bio = (entry: any) => entry.body?.replace(/\s+/g, " ").trim() ?? "";
 
 const pi = all.find((m) => m.data.group === "PI")!;
 
+// linkify the Easton Center mention in the PI's title
+const eastonLink = (role: string, url?: string | null) =>
+  url
+    ? role.replace(
+        "UCLA Mary S. Easton Center for Alzheimer's Research & Care",
+        `<a href="${url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">UCLA Mary S. Easton Center for Alzheimer&#39;s Research &amp; Care</a>`
+      )
+    : role;
+const piRoleHtml = eastonLink(pi.data.role, pi.data.easton_url);
+
 // display order of groups (PI shown separately)
 const groupOrder = ["Project Scientist", "Postdoc", "Grad Student", "Clinical", "Staff", "Undergraduate", "Alumni"];
 const groupLabel: Record<string, string> = {
@@ -58,15 +68,14 @@ const paletteFor = (name: string) => {
   <!-- PI feature -->
   <section class="section-tight" style="padding-top:clamp(3rem,6vw,5rem)">
     <div class="container">
-      <div class="split pi-feature" data-reveal>
-        <div class="portrait-wrap" style="max-width:380px">
-          <img class="portrait" src={pi.data.photo} alt={pi.data.name} width="500" height="640" />
-          <div class="portrait-tag"><strong>{pi.data.name}</strong><span>{pi.data.role}</span></div>
+      <div class="split pi-feature" data-reveal style="grid-template-columns: 220px 1fr; align-items:start; gap:clamp(1.5rem,4vw,3rem)">
+        <div class="portrait-wrap" style="max-width:220px">
+          <img class="portrait" src={pi.data.photo} alt={pi.data.name} width="220" height="264" style="aspect-ratio:5/6" />
         </div>
         <div>
           <span class="eyebrow">Principal Investigator</span>
           <h2 style="margin-top:.8rem">{pi.data.name}</h2>
-          <div class="r-tagline" style="font-size:1.02rem; line-height:1.4">{pi.data.role}</div>
+          <div class="r-tagline" style="font-size:1.02rem; line-height:1.45; color:var(--text-soft)" set:html={piRoleHtml}></div>
           <p style="margin-top:1.1rem; font-size:1.08rem">{bio(pi)}</p>
           <div class="social" style="display:flex; gap:.6rem; margin-top:1.3rem">
             {pi.data.linkedin && <a class="btn btn-ghost" style="padding:.5rem 1rem" href={pi.data.linkedin} target="_blank" rel="noopener">LinkedIn</a>}

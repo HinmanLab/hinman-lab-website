@@ -1,17 +1,13 @@
 ---
 name: "Jason D. Hinman, MD, PhD"
-role: "Principal Investigator · Professor-in-Residence, Neurology · Vice Chair of Research"
+role: "Principal Investigator · Professor of Neurology · Director, UCLA Mary S. Easton Center for Alzheimer's Research & Care"
 group: "PI"
 order: 1
 photo: "/images/team/jason-hinman.jpg"
 linkedin: "https://www.linkedin.com/in/jason-hinman-5a73a441/"
 twitter: "https://twitter.com/HinmanLabUCLA"
 orcid: "0000-0002-0872-5044"
+easton_url: "https://eastonad.ucla.edu"
 ---
 
-Jason is a physician-scientist, Professor of Neurology, and Vice Chair of Research at the David
-Geffen School of Medicine at UCLA. He also serves as Stroke Program Director at the West Los
-Angeles VA Medical Center. He earned his MD/PhD from Boston University School of Medicine,
-completed Adult Neurology Residency and Vascular Neurology Fellowship at UCLA, with additional
-specialization in Neurorehabilitation. He joined the UCLA faculty in 2013. He believes in equity
-in education, science, and medicine.
+Jason is a physician-scientist, trained in vascular neurology and neurorehabilitation, with clinical expertise in stroke, stroke recovery, vascular cognitive impairment, and dementia. In July 2026, he was appointed the Susan & David Wilstein Endowed Chair in Medicine at the David Geffen School of Medicine at UCLA. He also serves as Director of the Katherine and Benjamin Kagan AD Treatment Program and Director of the Easton Center Labs for Neurodegeneration. He co-directs the UCLA Neuroscience Physician-Scientist Training Program. He believes in fairness in education, science, and medicine.

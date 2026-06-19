@@ -9,6 +9,12 @@ const team = await getCollection("team");
 const pubsAll = await getCollection("publications");
 const pi = team.find((m) => m.data.group === "PI")!;
 const piBio = pi.body?.replace(/\s+/g, " ").trim() ?? "";
+const piRoleHtml = pi.data.easton_url
+  ? pi.data.role.replace(
+      "UCLA Mary S. Easton Center for Alzheimer's Research & Care",
+      `<a href="${pi.data.easton_url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px">UCLA Mary S. Easton Center for Alzheimer&#39;s Research &amp; Care</a>`
+    )
+  : pi.data.role;
 
 const featured = pubsAll.filter((p) => p.data.featured).slice(0, 4);
 const pubLink = (d: any): string =>
@@ -68,7 +74,7 @@ const stats = research.stats.map((s) =>
   <!-- ABOUT / PI -->
   <section class="section" id="about">
     <div class="container">
-      <div class="split">
+      <div class="split" style="align-items:start">
         <div data-reveal>
           <span class="eyebrow">The Lab</span>
           <h2>Decoding the vascular roots of stroke and dementia</h2>
@@ -87,11 +93,28 @@ const stats = research.stats.map((s) =>
             <a class="btn btn-ghost" href="/research/">Our research programs</a>
           </div>
         </div>
-        <div class="portrait-wrap" data-reveal data-delay="1">
-          <img class="portrait" src={pi.data.photo} alt={pi.data.name} loading="lazy" width="500" height="640" />
-          <div class="portrait-tag">
-            <strong>{pi.data.name}</strong>
-            <span>{site.pi.role} · {site.institution}</span>
+        <div data-reveal data-delay="1">
+          <div style="display:flex; gap:1.2rem; align-items:flex-start">
+            <img
+              class="portrait"
+              src={pi.data.photo}
+              alt={pi.data.name}
+              loading="lazy"
+              width="150"
+              height="180"
+              style="width:150px; flex:none; aspect-ratio:5/6; border-radius:var(--radius-sm)"
+            />
+            <div>
+              <span class="eyebrow">Principal Investigator</span>
+              <h3 style="margin-top:.5rem; font-size:1.4rem">{pi.data.name}</h3>
+              <div class="r-tagline" style="font-size:.9rem; line-height:1.4; color:var(--text-soft)" set:html={piRoleHtml}></div>
+            </div>
+          </div>
+          <p style="margin-top:1.2rem">{piBio}</p>
+          <div style="display:flex; gap:.6rem; margin-top:1.3rem; flex-wrap:wrap">
+            {pi.data.linkedin && <a class="btn btn-ghost" style="padding:.5rem 1rem" href={pi.data.linkedin} target="_blank" rel="noopener">LinkedIn</a>}
+            {pi.data.twitter && <a class="btn btn-ghost" style="padding:.5rem 1rem" href={pi.data.twitter} target="_blank" rel="noopener">Twitter / X</a>}
+            {pi.data.orcid && <a class="btn btn-ghost" style="padding:.5rem 1rem" href={`https://orcid.org/${pi.data.orcid}`} target="_blank" rel="noopener">ORCID</a>}
           </div>
         </div>
       </div>
