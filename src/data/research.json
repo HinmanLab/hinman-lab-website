@@ -10,7 +10,8 @@
         "IL-17/CXCL5 signaling in human and mouse white matter injury",
         "Vascular regulation of remyelination",
         "SARM1 as a target to limit axonal degeneration"
-      ]
+      ],
+      "pmids": []
     },
     {
       "id": "vcid",
@@ -21,7 +22,8 @@
         "Placental growth factor (PlGF) and cognitive trajectories",
         "Neurovascular dysfunction and tau pathology",
         "Sex differences in brain aging"
-      ]
+      ],
+      "pmids": []
     },
     {
       "id": "icad",
@@ -32,7 +34,8 @@
         "Flow-dependent endothelialized 3D vascular models",
         "Lesion location and clinical outcomes",
         "Translational and endovascular therapy"
-      ]
+      ],
+      "pmids": []
     },
     {
       "id": "biomarkers",
@@ -43,7 +46,8 @@
         "MarkVCID biomarker validation consortium",
         "Inflammatory network biomarkers of stroke risk",
         "AHA scientific statements on vascular brain health"
-      ]
+      ],
+      "pmids": []
     }
   ],
   "stats": [

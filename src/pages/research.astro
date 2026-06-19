@@ -19,8 +19,16 @@ const keywords: Record<string, string[]> = {
   "icad": ["atherosclerot", "intracranial", "endothelial", "shear", "flow", "stent", "endovascular"],
   "biomarkers": ["biomarker", "markvcid", "plasma", "inflammat", "il-18", "lipid", "neurofilament"],
 };
-const relatedFor = (id: string) => {
-  const ks = keywords[id] ?? [];
+const relatedFor = (area: any) => {
+  // 1) If the program lists specific PMIDs in research.json, show exactly those (in order).
+  if (Array.isArray(area.pmids) && area.pmids.length) {
+    return area.pmids
+      .map((pmid: number | string) => pubsAll.find((p) => String(p.data.pmid) === String(pmid)))
+      .filter(Boolean)
+      .slice(0, 4);
+  }
+  // 2) Otherwise, auto-pick a few by keyword.
+  const ks = keywords[area.id] ?? [];
   return pubsAll
     .filter((p) => ks.some((k) => `${p.data.title} ${p.data.journal}`.toLowerCase().includes(k)))
     .slice(0, 3);
@@ -39,7 +47,7 @@ const relatedFor = (id: string) => {
   <section class="section">
     <div class="container">
       {research.areas.map((a, i) => {
-        const related = relatedFor(a.id);
+        const related = relatedFor(a);
         return (
           <div class="split" style={`margin-bottom: clamp(3rem,7vw,6rem); ${i % 2 ? "direction:rtl" : ""}`} data-reveal>
             <div style="direction:ltr">
