@@ -1,13 +1,17 @@
 #!/usr/bin/env node
-// Fetch Jason D. Hinman publications from NCBI E-utilities and write
-// one Markdown file per publication into src/content/publications/.
+// Fetch Jason D. Hinman publications from NCBI E-utilities and ADD any new ones
+// as Markdown files in src/content/publications/.
+//
+// This is ADDITIVE: existing files (and their `featured: true` flags / manual
+// edits) are never deleted or overwritten — only PMIDs not already present are
+// added. Safe to re-run anytime; review newly added files and commit.
 //
 // Usage:
-//   node scripts/fetch_pubmed.mjs                # default search
-//   NCBI_API_KEY=xxxx node scripts/fetch_pubmed.mjs
+//   node scripts/fetch_pubmed.mjs                # or: npm run pubmed:fetch
+//   NCBI_API_KEY=xxxx node scripts/fetch_pubmed.mjs   # higher rate limit
 //
-// Default search term targets UCLA + Boston University affiliations.
-// Adjust SEARCH_TERM if disambiguation drifts (e.g., new affiliation).
+// SEARCH_TERM uses an affiliation filter to keep additions high-precision.
+// Adjust it if disambiguation drifts (e.g., a new affiliation).
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -135,15 +139,24 @@ async function main() {
     )
   );
 
-  // Wipe and rewrite content files
-  for (const f of await fs.readdir(OUT_DIR)) {
-    if (f.endsWith('.md')) await fs.unlink(path.join(OUT_DIR, f));
+  // ADDITIVE merge: never delete or overwrite existing publication files. This
+  // preserves the curated set, any manual edits, and `featured: true` flags.
+  // Only PMIDs not already present are written as new files.
+  const existing = await fs.readdir(OUT_DIR);
+  const havePmids = new Set();
+  for (const f of existing) {
+    if (!f.endsWith('.md')) continue;
+    const txt = await fs.readFile(path.join(OUT_DIR, f), 'utf8');
+    const pmid = (txt.match(/^pmid:\s*"?(\d+)"?/m) || [])[1];
+    if (pmid) havePmids.add(pmid);
   }
 
+  let added = 0;
   for (const p of records) {
+    if (havePmids.has(String(p.pmid))) continue; // already curated — leave untouched
     const slug = slugify(p.title, p.year, p.pmid);
     const fp = path.join(OUT_DIR, `${slug}.md`);
-    const body = [
+    const lines = [
       '---',
       `title: ${esc(p.title)}`,
       `authors: ${esc(p.authors)}`,
@@ -159,11 +172,13 @@ async function main() {
       `url: ${esc(`https://pubmed.ncbi.nlm.nih.gov/${p.pmid}/`)}`,
       '---',
       '',
-    ].join('\n');
-    await fs.writeFile(fp, body);
+    ];
+    await fs.writeFile(fp, lines.join('\n'));
+    added++;
   }
 
-  console.log('Done. Review changes and commit.');
+  console.log(`Done. Added ${added} new publication(s); left ${havePmids.size} existing file(s) untouched.`);
+  console.log('Tip: review new files (some searches surface namesakes) and delete any that are not the right Hinman JD.');
 }
 
 main().catch((err) => {

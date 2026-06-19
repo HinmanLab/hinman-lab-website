@@ -11,4 +11,5 @@ pmid: "39602511"
 pmcid: "PMC12092094"
 doi: null
 url: "https://pubmed.ncbi.nlm.nih.gov/39602511/"
+featured: true
 ---

@@ -1,0 +1,60 @@
+---
+// Animated vascular network for the hero background.
+// Pure SVG + SMIL animation (no JS) so it stays durable and lightweight.
+// Pulses travel along arterial→venous vessels to evoke cerebral blood flow.
+const vessels = [
+  { d: "M-40 120 C 220 60, 360 220, 620 150 S 1040 80, 1480 200", dur: "7s", w: 1.6 },
+  { d: "M-40 300 C 260 240, 420 360, 700 300 S 1100 240, 1480 340", dur: "9s", w: 1.2 },
+  { d: "M-40 470 C 200 540, 380 380, 640 470 S 1080 560, 1480 420", dur: "8s", w: 1.4 },
+  { d: "M-40 640 C 300 600, 520 720, 820 640 S 1160 580, 1480 660", dur: "10s", w: 1 },
+  { d: "M120 -40 C 200 200, 80 360, 260 560 S 360 760, 300 920", dur: "11s", w: 0.9 },
+  { d: "M1100 -40 C 1180 220, 1040 400, 1220 600 S 1300 820, 1240 920", dur: "12s", w: 0.9 },
+];
+---
+
+<svg
+  class="hero-vessels"
+  viewBox="0 0 1440 760"
+  preserveAspectRatio="xMidYMid slice"
+  aria-hidden="true"
+>
+  <defs>
+    <linearGradient id="vg" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e11d48" stop-opacity="0.55" />
+      <stop offset="0.55" stop-color="#4f46e5" stop-opacity="0.5" />
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0.55" />
+    </linearGradient>
+    <radialGradient id="pulse-art" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ff7a96" />
+      <stop offset="1" stop-color="#e11d48" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="pulse-ox" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#7df3ff" />
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  {vessels.map((v, i) => (
+    <path id={`vessel-${i}`} d={v.d} fill="none" stroke="url(#vg)" stroke-width={v.w} stroke-linecap="round" opacity="0.5" />
+  ))}
+
+  {vessels.map((v, i) => (
+    <circle r={i % 2 === 0 ? 5 : 3.5} fill={i % 2 === 0 ? "url(#pulse-art)" : "url(#pulse-ox)"}>
+      <animateMotion dur={v.dur} repeatCount="indefinite" rotate="auto">
+        <mpath href={`#vessel-${i}`} />
+      </animateMotion>
+      <animate
+        attributeName="opacity"
+        values="0;1;1;0"
+        keyTimes="0;0.1;0.85;1"
+        dur={v.dur}
+        repeatCount="indefinite"
+      />
+    </circle>
+  ))}
+
+  {/* Branch nodes */}
+  {[[620,150],[700,300],[640,470],[260,560],[1220,600]].map(([cx, cy]) => (
+    <circle cx={cx} cy={cy} r="2.5" fill="#cdd6f0" opacity="0.5" />
+  ))}
+</svg>

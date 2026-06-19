@@ -1,79 +1,101 @@
-# Hinman Lab — Website
+# Hinman Lab website
 
-Source code for [hinmanlabucla.org](https://www.hinmanlabucla.org). Built with [Astro 5](https://astro.build), [Tailwind CSS 4](https://tailwindcss.com), and deployed on [Cloudflare Pages](https://pages.cloudflare.com).
+A fast, low-cost, static website for the Hinman Lab at UCLA, built with
+[Astro](https://astro.build). No servers, no databases, nothing to patch — it
+compiles to plain HTML/CSS and is hosted for free.
 
-The site is fully static — there is no runtime database, no JS by default, and every page renders to plain HTML at build time. Content lives in version-controlled Markdown files under `src/content/`.
+**Total ongoing cost: ~$12–20/yr** (just your domain renewal — hosting is free).
 
-## Quick start
+Design: a modern, dynamic "vascular neuroscience" look — animated cerebral-vessel
+hero, scroll-reveal animations, and live count-up stats. Content is plain
+**Markdown** you edit on GitHub; the site rebuilds automatically on each commit.
+
+---
+
+## ✅ Before you launch — things to verify
+
+Edit `src/data/site.json`:
+
+- **Email** — currently `jhinman@mednet.ucla.edu` (a typical UCLA pattern, **please confirm**).
+- **Phone / address** — confirm `310-825-7802` and the listed address.
+- Socials (Twitter `@HinmanLabUCLA`, LinkedIn, ORCID) were carried over — confirm they're right.
+
+Also:
+- **One team placeholder** — `src/content/team/harry-postdoc.md` is a stub ("Harry — Postdoctoral Fellow"). Replace with the real name, bio, and photo, or delete the file. It currently shows as a colored-initials card.
+
+---
+
+## Editing content (what you'll actually use)
+
+Content lives in **Markdown files** you can edit directly on GitHub (open a file →
+pencil icon → commit). The site rebuilds and redeploys within ~1 minute.
+
+| What to change | Where |
+|---|---|
+| Lab name, contact, social links | `src/data/site.json` |
+| Research programs + homepage stats | `src/data/research.json` |
+| A publication | `src/content/publications/*.md` (one file per paper) |
+| A team member | `src/content/team/*.md` (one file per person) |
+| A funding grant | `src/content/funding/*.md` |
+| A news post | `src/content/news/*.md` |
+| "Join Us" page text | `src/pages/join.astro` |
+
+### Publications — keep them current automatically
+The publication list (83 papers) is generated from PubMed. To refresh after a new
+paper is indexed:
 
 ```bash
-git clone <repo-url> hinman-lab-website
-cd hinman-lab-website
-npm install
-npm run dev          # http://localhost:4321
+npm run pubmed:fetch     # re-pulls Dr. Hinman's PubMed record
 ```
+
+This rewrites the files in `src/content/publications/`. It **preserves your
+`featured: true` flags**, so highlighted papers stay highlighted. Review the
+changes (`git diff`) and commit. To spotlight a paper on the homepage, add
+`featured: true` to its Markdown frontmatter.
+
+> The search term lives near the top of `scripts/fetch_pubmed.mjs` if it ever
+> needs tuning for author disambiguation.
+
+### Add or edit a team member
+Copy an existing file in `src/content/team/`. Frontmatter fields: `name`, `role`,
+`group` (one of `PI`, `Project Scientist`, `Postdoc`, `Grad Student`, `Clinical`,
+`Staff`, `Undergraduate`, `Alumni`), `order` (within the group), optional `photo`,
+`linkedin`, `twitter`, `orcid`. The text below the frontmatter is the bio.
+Set `photo: null` to show tasteful colored initials instead of a picture.
+
+### Add or change a photo
+1. Put a square image (e.g. 500×500) in `public/images/team/`.
+2. Set that person's `photo:` to `/images/team/their-file.jpg`.
+
+---
+
+## Running it locally (optional)
+
+```bash
+npm install      # first time only
+npm run dev      # open the printed http://localhost:4321 address
+npm run build    # produce the final files in dist/
+```
+
+---
+
+## Deployment
+
+See **[DEPLOY.md](DEPLOY.md)** for step-by-step instructions to put this online for
+free with Cloudflare Pages (or GitHub Pages) and point `hinmanlabucla.org` at it.
 
 ## Project layout
 
 ```
-.
-├── astro.config.mjs           # Astro config + sitemap + tailwind plugin
-├── package.json
-├── public/                    # Static assets served as-is (favicon, robots.txt, OG image)
-├── scripts/
-│   └── fetch_pubmed.mjs       # Refresh publications from NCBI E-utilities
-├── src/
-│   ├── components/            # Header, Footer
-│   ├── content/               # All site content — edit these to update the site
-│   │   ├── publications/      # One MD file per publication
-│   │   ├── team/              # One MD file per lab member
-│   │   ├── news/              # One MD file per post
-│   │   ├── research/          # One MD file per research focus area
-│   │   └── funding/           # One MD file per grant/award
-│   ├── content.config.ts      # Schema for each content collection
-│   ├── layouts/BaseLayout.astro
-│   ├── pages/                 # One .astro file per top-level route
-│   └── styles/global.css      # Tailwind import + design tokens
-├── _research/                 # Reference material (Wix archive, raw PubMed JSON) — not deployed
-├── README.md
-├── DEPLOYMENT.md              # How to deploy to Cloudflare Pages
-└── MAINTENANCE.md             # Day-to-day updates (publications, team, news)
+src/
+  data/site.json          global config (name, contact, socials)
+  data/research.json       research programs + homepage stats
+  content/                 Markdown content (publications, team, funding, news)
+  content.config.ts        content schemas
+  components/              Nav, Footer, animated VesselField hero
+  layouts/BaseLayout.astro page shell + scroll/animation scripts
+  pages/                   index, research, publications, team, news, join, 404
+  styles/global.css        the design system
+public/images/team/        local headshots
+scripts/fetch_pubmed.mjs   PubMed → Markdown sync
 ```
-
-## Commands
-
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Local dev server with live reload at `http://localhost:4321` |
-| `npm run build` | Build static site to `dist/` |
-| `npm run preview` | Preview the built `dist/` locally |
-| `npm run pubmed:fetch` | Re-pull publications from PubMed and rewrite `src/content/publications/` |
-
-## Where content lives
-
-All site content is plain Markdown with YAML frontmatter, type-checked at build time via the schema in `src/content.config.ts`. To add or change something, edit the relevant file and commit.
-
-- **Publications**: `src/content/publications/*.md` — one file per paper. Frontmatter must include `title`, `authors`, `journal`, `year`, `pmid`. Files can be regenerated en masse with `npm run pubmed:fetch`.
-- **Team**: `src/content/team/*.md` — one file per person. Must include `name`, `role`, `group` (PI / Project Scientist / Postdoc / Grad Student / Clinical / Staff / Undergraduate / Alumni), and `order` (within group).
-- **News**: `src/content/news/*.md` — one file per post. Must include `title` and `date`.
-- **Research**: `src/content/research/*.md` — one file per focus area, shown on `/research` and (top 3) on home.
-- **Funding**: `src/content/funding/*.md` — one file per grant or award.
-
-See `MAINTENANCE.md` for the most common edits.
-
-## Design system
-
-- **Typography**: Source Serif 4 (headings), Inter (body), loaded from Google Fonts. To self-host, drop WOFF2 files in `public/fonts/` and update `BaseLayout.astro`.
-- **Color tokens**: defined in `src/styles/global.css` under `@theme`. Primary accent is a restrained slate-blue (`--color-accent: #1f3a8a`); UCLA gold is reserved for small highlights.
-- **Layout**: 6xl container (`max-w-6xl`) with generous whitespace; mobile-first responsive.
-- **Accessibility**: skip link, semantic landmarks, keyboard-visible focus rings, alt text on all images, `prefers-reduced-motion` handled.
-
-## Stack rationale
-
-- **Astro** ships zero client-side JS by default. Pages are pure HTML — fast, robust, indexable, accessible. Markdown content collections fit lab-website data (publications, team, news) cleanly.
-- **Tailwind** keeps styling co-located with markup without producing a heavy CSS bundle. Tailwind 4's `@theme` blocks let us define design tokens in CSS.
-- **Cloudflare Pages** is free for sites of this size, has a global CDN, automatic SSL, and pushes new builds on every Git commit.
-
-## License
-
-Site code: MIT. Content: © The Hinman Lab.

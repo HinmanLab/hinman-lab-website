@@ -1,12 +1,13 @@
+// @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import tailwindcss from '@tailwindcss/vite';
 
-// https://astro.build/config
+// The public URL of the site. Used for canonical links and the sitemap.
 export default defineConfig({
   site: 'https://www.hinmanlabucla.org',
   integrations: [sitemap()],
-  vite: {
-    plugins: [tailwindcss()],
+  build: {
+    // Emit clean URLs (e.g. /research/ instead of /research.html)
+    format: 'directory',
   },
 });

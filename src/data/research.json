@@ -1,0 +1,55 @@
+{
+  "intro": "We are a translational neuroscience lab studying the molecular pathways that drive the two most common neurologic disorders — stroke and dementia. Our work spans the vascular biology of the brain, from single glial cells to human clinical biomarkers, with the shared goal of protecting and repairing the brain's white matter.",
+  "areas": [
+    {
+      "id": "white-matter",
+      "title": "Neurovascular mechanisms of white matter injury & repair",
+      "tagline": "The oligovascular niche after stroke",
+      "description": "White matter is exquisitely vulnerable to vascular injury. We study how signaling between blood vessels and oligodendrocyte lineage cells — the \"oligovascular niche\" — controls myelin loss and repair after ischemic stroke, including IL-17/CXCL5 chemokine signaling and SARM1-driven axonal degeneration.",
+      "highlights": [
+        "IL-17/CXCL5 signaling in human and mouse white matter injury",
+        "Vascular regulation of remyelination",
+        "SARM1 as a target to limit axonal degeneration"
+      ]
+    },
+    {
+      "id": "vcid",
+      "title": "Vascular contributions to cognitive impairment & dementia",
+      "tagline": "How the failing neurovascular unit drives decline",
+      "description": "An NIA-funded program investigating how vascular dysregulation contributes to neurodegeneration and Alzheimer's disease, including the interplay between neurovascular dysfunction and tau aggregation, and the angiogenic factor placental growth factor (PlGF) as a driver and marker of decline.",
+      "highlights": [
+        "Placental growth factor (PlGF) and cognitive trajectories",
+        "Neurovascular dysfunction and tau pathology",
+        "Sex differences in brain aging"
+      ]
+    },
+    {
+      "id": "icad",
+      "title": "Intracranial atherosclerotic disease",
+      "tagline": "Modeling diseased cerebral arteries in 3D",
+      "description": "Intracranial atherosclerotic disease is a leading cause of stroke worldwide. We build flow-dependent, endothelialized 3D in vitro models of the cerebral vasculature to dissect disease mechanisms and test therapeutic and endovascular strategies.",
+      "highlights": [
+        "Flow-dependent endothelialized 3D vascular models",
+        "Lesion location and clinical outcomes",
+        "Translational and endovascular therapy"
+      ]
+    },
+    {
+      "id": "biomarkers",
+      "title": "Blood-based biomarkers & clinical translation",
+      "tagline": "From the bench to the clinic",
+      "description": "We develop and validate blood-based biomarkers of cerebral small vessel disease and post-stroke cognitive impairment, partnering in national consortia (MarkVCID) and contributing to AHA scientific statements that shape clinical practice — always with a commitment to equity in science and medicine.",
+      "highlights": [
+        "MarkVCID biomarker validation consortium",
+        "Inflammatory network biomarkers of stroke risk",
+        "AHA scientific statements on vascular brain health"
+      ]
+    }
+  ],
+  "stats": [
+    { "value": 80, "suffix": "+", "label": "Peer-reviewed publications" },
+    { "value": 16, "suffix": "", "label": "Lab members" },
+    { "value": 2013, "suffix": "", "label": "Lab established at UCLA", "raw": true },
+    { "value": 4, "suffix": "", "label": "Core research programs" }
+  ]
+}

@@ -1,0 +1,55 @@
+---
+import site from "../data/site.json";
+const path = Astro.url.pathname;
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/research/", label: "Research" },
+  { href: "/publications/", label: "Publications" },
+  { href: "/team/", label: "Team" },
+  { href: "/news/", label: "News" },
+  { href: "/join/", label: "Join Us" },
+];
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
+---
+
+<nav class="nav">
+  <div class="container">
+    <a href="/" class="brand" aria-label={site.name}>
+      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="brandg" x1="0" y1="0" x2="40" y2="40">
+            <stop offset="0" stop-color="#e11d48" />
+            <stop offset="0.6" stop-color="#4f46e5" />
+            <stop offset="1" stop-color="#22d3ee" />
+          </linearGradient>
+        </defs>
+        <circle cx="20" cy="20" r="19" stroke="url(#brandg)" stroke-width="2" />
+        <path
+          d="M12 27c0-6 4-7 8-7s8-1 8-7M12 13c0 6 4 7 8 7"
+          stroke="url(#brandg)"
+          stroke-width="2.4"
+          stroke-linecap="round"
+        />
+        <circle cx="12" cy="27" r="2.6" fill="#e11d48" />
+        <circle cx="28" cy="13" r="2.6" fill="#22d3ee" />
+      </svg>
+      <span>{site.shortName}</span>
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="nav-links">
+      {
+        links.map((l) => (
+          <a href={l.href} aria-current={isActive(l.href) ? "page" : undefined}>
+            {l.label}
+          </a>
+        ))
+      }
+      <a class="btn btn-primary" href="/#contact">Contact</a>
+    </div>
+  </div>
+</nav>

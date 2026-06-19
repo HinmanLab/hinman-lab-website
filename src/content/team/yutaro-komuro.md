@@ -3,7 +3,7 @@ name: "Yutaro Komuro, PhD"
 role: "Project Scientist"
 group: "Project Scientist"
 order: 10
-photo: "https://static.wixstatic.com/media/3cc044_b83ecaa9b83745a2bd1f1db8f8334d23~mv2.jpeg/v1/fill/w_400,h_400,al_c,q_85/Yutaro%20Komuro%20headshot.jpeg"
+photo: "/images/team/yutaro-komuro.jpg"
 linkedin: "https://www.linkedin.com/in/yutarokomuro/"
 ---
 

@@ -1,84 +1,97 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import site from "../data/site.json";
+
+const paths = [
+  {
+    title: "Graduate Students",
+    body: "UCLA graduate students (NSIDP and affiliated programs) interested in rotations on neurovascular biology, white matter injury, or biomarker discovery are encouraged to reach out.",
+    icon: "M12 3 1 9l11 6 9-4.9V17h2V9L12 3Zm0 13.5L5 12.7v3.6c0 1.4 3.1 3.2 7 3.2s7-1.8 7-3.2v-3.6l-7 3.8Z",
+  },
+  {
+    title: "Postdoctoral Fellows",
+    body: "We welcome postdocs with backgrounds in neuroscience, vascular biology, bioinformatics, or bioengineering who want to bridge molecular discovery and clinical translation.",
+    icon: "M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4 0-7 2-7 4v2h10M16 11l2 2 4-4",
+  },
+  {
+    title: "Undergraduates",
+    body: "Motivated UCLA undergraduates can gain hands-on research experience in wet-lab, computational, and clinical projects. We value curiosity and commitment over prior experience.",
+    icon: "M12 3 1 9l11 6 9-4.9V17h2V9L12 3Z",
+  },
+  {
+    title: "Clinical & Research Staff",
+    body: "Staff and clinical research associates interested in coordinating studies on vascular contributions to cognitive impairment and dementia are encouraged to apply.",
+    icon: "M9 2h6v2h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3V2Zm3 7v6M9 12h6",
+  },
+];
 ---
 
-<BaseLayout title="Join the lab" description="Open positions and how to apply to the Hinman Lab at UCLA Neurology.">
-  <section class="border-b border-[color:var(--color-rule)]">
-    <div class="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-20">
-      <p class="text-xs uppercase tracking-[0.22em] text-[color:var(--color-faint)]">Join</p>
-      <h1 class="mt-3 font-serif text-4xl tracking-tight sm:text-5xl">Open positions</h1>
-      <p class="mt-4 max-w-2xl text-[color:var(--color-muted)]">
-        We recruit at all career stages — postdoctoral fellows, staff research associates, graduate
-        students, and UCLA undergraduates. We're committed to equity in education, science, and
-        medicine.
+<BaseLayout title="Join Us" description="Join the Hinman Lab — opportunities for trainees and staff.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="color:var(--oxygen)">Join Us</span>
+      <h1>Build the future of vascular brain health</h1>
+      <p>
+        We are always looking for curious, driven people to join our team. We train scientists at
+        every stage and are committed to equity in education, science, and medicine.
       </p>
     </div>
   </section>
 
-  <section>
-    <div class="mx-auto max-w-4xl px-5 py-12 sm:px-8 sm:py-16 space-y-12">
-      <article class="border-t border-[color:var(--color-ink)] pt-6">
-        <h2 class="font-serif text-2xl tracking-tight">Postdoctoral Fellow — Intracranial Atherosclerosis (ICAD)</h2>
-        <p class="mt-3 text-[color:var(--color-muted)]">
-          Drs. Jason Hinman (Neurology), David Liebeskind (Neurology), and Naoki Kaneko (Radiology) are
-          co-hosting a postdoctoral fellowship to study cerebrovascular biology in the context of
-          intracranial atherosclerosis (ICAD). Using data and models of patient-specific ICAD lesions
-          — the leading worldwide cause of stroke — the project aims to identify biologic pathways
-          that promote localized thrombosis.
-        </p>
-        <p class="mt-3 text-[color:var(--color-muted)]">
-          The fellow will develop expertise in ICAD pathogenesis, 3D printing, endothelial cell
-          biology, spatial transcriptomics, gene expression, and advanced light microscopy. Two-year
-          appointment, NIH-funded.
-        </p>
-      </article>
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Opportunities</span>
+        <h2>Who we're looking for</h2>
+        <p>If any of the paths below sound like you, we'd love to hear from you.</p>
+      </div>
 
-      <article class="border-t border-[color:var(--color-rule)] pt-6">
-        <h2 class="font-serif text-2xl tracking-tight">Postdoctoral Fellow — Stroke &amp; Tau</h2>
-        <p class="mt-3 text-[color:var(--color-muted)]">
-          Two-year position to study molecular pathways activated by stroke that regulate tau
-          aggregation in a model of mixed vascular and Alzheimer's dementia. Includes testing of new
-          chemical entities to block stroke-activated enzymes (Mark4).
-        </p>
-      </article>
+      <div class="join-grid">
+        {paths.map((p, i) => (
+          <article class="join-card" data-reveal data-delay={i % 3}>
+            <span class="ic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d={p.icon} />
+              </svg>
+            </span>
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
 
-      <article class="border-t border-[color:var(--color-rule)] pt-6">
-        <h2 class="font-serif text-2xl tracking-tight">Staff Research Associate</h2>
-        <p class="mt-3 text-[color:var(--color-muted)]">
-          Multiple open SRA positions to work on human biomarker studies as part of NIH-funded
-          projects focused on vascular cognitive impairment. Background in immunoassays and proteomics
-          preferred.
-        </p>
-      </article>
-
-      <article class="border-t border-[color:var(--color-rule)] pt-6">
-        <h2 class="font-serif text-2xl tracking-tight">UCLA Undergraduate Volunteers</h2>
-        <p class="mt-3 text-[color:var(--color-muted)]">
-          UCLA undergraduates interested in research opportunities in the lab should fill out the
-          following intake form.
-        </p>
-        <p class="mt-3">
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSc2fHkRVUrUNckaJTPawdSIynf0Q7xdNKA5P-1EBk_70JUmJw/viewform"
-            class="inline-flex items-center rounded-md bg-[color:var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white no-underline hover:bg-[color:var(--color-accent-hover)]"
-            rel="external noopener"
-          >
-            Undergraduate interest form →
-          </a>
-        </p>
-      </article>
-
-      <article class="border-t border-[color:var(--color-rule)] pt-6">
-        <h2 class="font-serif text-2xl tracking-tight">How to apply</h2>
-        <p class="mt-3 text-[color:var(--color-muted)]">
-          For postdoctoral and staff inquiries, email Dr. Hinman with (1) a cover letter describing
-          your research interests and which project(s) align with your goals, (2) your CV, and
-          (3) contact information for three references.
-        </p>
-        <p class="mt-3">
-          <a href="/contact/" class="no-underline">Contact information →</a>
-        </p>
-      </article>
+  <section class="section bg-soft" style="padding-top:0">
+    <div class="container">
+      <div class="contact-card" data-reveal>
+        <div class="split" style="align-items:center">
+          <div>
+            <span class="eyebrow" style="color:var(--oxygen)">How to apply</span>
+            <h2 style="margin-top:.8rem; color:#fff">Reach out to Dr. Hinman</h2>
+            <p style="color:#aab6d6; margin-top:1rem; font-size:1.1rem">
+              Send a brief note about your background, interests, and what draws you to the lab,
+              along with a CV. We review every inquiry.
+            </p>
+            <div class="hero-cta" style="margin-top:1.8rem">
+              <a class="btn btn-primary" href={`mailto:${site.contact.email}?subject=Joining the Hinman Lab`}>
+                Email the lab
+              </a>
+              <a class="btn btn-on-ink" href="/research/">See our research</a>
+            </div>
+          </div>
+          <div class="contact-rows">
+            <div class="contact-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM4 7l8 6 8-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><div class="lbl">Email</div><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></div>
+            </div>
+            <div class="contact-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <div><div class="lbl">Location</div><span class="val">{site.contact.address}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

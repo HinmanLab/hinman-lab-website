@@ -1,8 +1,8 @@
 {
-  "name": "hinman-lab-website",
+  "name": "hinman-lab-site",
   "type": "module",
   "version": "1.0.0",
-  "description": "The Hinman Lab — UCLA Department of Neurology",
+  "private": true,
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -12,9 +12,7 @@
     "pubmed:fetch": "node scripts/fetch_pubmed.mjs"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.2.1",
-    "@tailwindcss/vite": "^4.1.13",
-    "astro": "^5.14.1",
-    "tailwindcss": "^4.1.13"
+    "astro": "^5.7.0",
+    "@astrojs/sitemap": "^3.3.0"
   }
 }

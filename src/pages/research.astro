@@ -1,76 +1,116 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection, render } from 'astro:content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import research from "../data/research.json";
+import { getCollection } from "astro:content";
 
-const areas = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
-const funding = (await getCollection('funding')).sort((a, b) => {
-  if (a.data.active !== b.data.active) return a.data.active ? -1 : 1;
-  return (b.data.start ?? '').localeCompare(a.data.start ?? '');
-});
-
-const rendered = await Promise.all(
-  areas.map(async (a) => ({ area: a, Content: (await render(a)).Content }))
+const pubsAll = await getCollection("publications");
+pubsAll.sort((a, b) => b.data.year - a.data.year);
+const funding = (await getCollection("funding")).sort(
+  (a, b) => Number(b.data.start ?? 0) - Number(a.data.start ?? 0)
 );
+
+const pubLink = (d: any): string =>
+  d.url ?? (d.doi ? `https://doi.org/${d.doi}` : d.pmid ? `https://pubmed.ncbi.nlm.nih.gov/${d.pmid}/` : "#");
+
+// keyword sets to surface a few related papers per program (pubs carry no tags)
+const keywords: Record<string, string[]> = {
+  "white-matter": ["white matter", "myelin", "oligodendrocyte", "oligovascular", "axon", "sarm1", "remyelination", "stroke"],
+  "vcid": ["cognit", "dementia", "alzheimer", "placental growth", "vascular contributions", "amyloid", "tau"],
+  "icad": ["atherosclerot", "intracranial", "endothelial", "shear", "flow", "stent", "endovascular"],
+  "biomarkers": ["biomarker", "markvcid", "plasma", "inflammat", "il-18", "lipid", "neurofilament"],
+};
+const relatedFor = (id: string) => {
+  const ks = keywords[id] ?? [];
+  return pubsAll
+    .filter((p) => ks.some((k) => `${p.data.title} ${p.data.journal}`.toLowerCase().includes(k)))
+    .slice(0, 3);
+};
 ---
 
-<BaseLayout title="Research" description="Research programs in the Hinman Lab — cerebrovascular biology, white matter injury, neurovascular contributions to tauopathy, and intracranial atherosclerosis.">
-  <section class="border-b border-[color:var(--color-rule)]">
-    <div class="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-20">
-      <p class="text-xs uppercase tracking-[0.22em] text-[color:var(--color-faint)]">Research</p>
-      <h1 class="mt-3 font-serif text-4xl tracking-tight sm:text-5xl">
-        Translational research at the intersection of stroke and dementia
-      </h1>
-      <p class="mt-6 text-lg leading-relaxed text-[color:var(--color-muted)]">
-        Together, stroke and dementia affect more than 6 million people in the United States, with
-        growing recognition of significant overlap between vascular brain injury and neurodegenerative
-        conditions. Our work focuses on identifying molecular pathways that can translate to
-        diagnostics and therapeutics for these disorders.
-      </p>
+<BaseLayout title="Research" description={research.intro}>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="color:var(--oxygen)">Research</span>
+      <h1>From single vessels to the whole brain</h1>
+      <p>{research.intro}</p>
     </div>
   </section>
 
-  <section>
-    <div class="mx-auto max-w-4xl px-5 py-12 sm:px-8 sm:py-16">
-      {rendered.map(({ area, Content }) => (
-        <article class="border-t border-[color:var(--color-ink)] py-10 first:border-t-0 first:pt-0">
-          <h2 class="font-serif text-2xl tracking-tight">{area.data.title}</h2>
-          <p class="mt-3 text-base leading-relaxed text-[color:var(--color-muted)]">
-            {area.data.summary}
-          </p>
-          <div class="prose mt-4 max-w-none text-[color:var(--color-ink)]">
-            <Content />
+  <section class="section">
+    <div class="container">
+      {research.areas.map((a, i) => {
+        const related = relatedFor(a.id);
+        return (
+          <div class="split" style={`margin-bottom: clamp(3rem,7vw,6rem); ${i % 2 ? "direction:rtl" : ""}`} data-reveal>
+            <div style="direction:ltr">
+              <span class="r-num" style="font-size:1.1rem; color:var(--venous-soft)">Program 0{i + 1}</span>
+              <h2 style="margin:.6rem 0 .4rem">{a.title}</h2>
+              <div class="r-tagline" style="font-size:1.05rem">{a.tagline}</div>
+              <p style="margin-top:1.1rem; font-size:1.08rem">{a.description}</p>
+              <ul class="r-highlights" style="margin-top:1.4rem">
+                {a.highlights.map((h) => <li>{h}</li>)}
+              </ul>
+            </div>
+            <div style="direction:ltr">
+              <div class="r-card" style="background:var(--bg-soft)">
+                <span class="eyebrow">Related publications</span>
+                <ul style="margin-top:1rem; display:grid; gap:.9rem">
+                  {related.length ? related.map((p) => (
+                    <li class="pub" style="padding:.6rem 0; border:0">
+                      <span class="bullet"></span>
+                      <div>
+                        <h3 style="font-size:.98rem"><a href={pubLink(p.data)} target="_blank" rel="noopener">{p.data.title}</a></h3>
+                        <div class="meta"><span class="jrnl">{p.data.journal}</span> · {p.data.year}</div>
+                      </div>
+                    </li>
+                  )) : <li><p style="font-size:.95rem">See the publications page for related work.</p></li>}
+                </ul>
+              </div>
+            </div>
           </div>
-        </article>
-      ))}
+        );
+      })}
     </div>
   </section>
 
-  {funding.length > 0 && (
-    <section class="border-t border-[color:var(--color-rule)] bg-[color:var(--color-tint)]">
-      <div class="mx-auto max-w-4xl px-5 py-12 sm:px-8 sm:py-16">
-        <h2 class="font-serif text-2xl tracking-tight">Active funding</h2>
-        <p class="mt-2 text-sm text-[color:var(--color-muted)]">Selected current and recent awards supporting research in the lab.</p>
-        <ul class="mt-8 divide-y divide-[color:var(--color-rule)]">
-          {funding.map((g) => (
-            <li class="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[10rem_1fr] sm:gap-6">
-              <div class="text-sm font-medium text-[color:var(--color-ink)]">
-                {g.data.grant}
-                {!g.data.active && (
-                  <span class="ml-2 rounded-full bg-white px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-[color:var(--color-faint)]">past</span>
-                )}
-              </div>
-              <div>
-                <p class="text-sm text-[color:var(--color-ink)]">{g.data.title}</p>
-                <p class="mt-0.5 text-xs text-[color:var(--color-muted)]">
-                  {g.data.agency}
-                  {g.data.role && <> · {g.data.role}</>}
-                  {g.data.start && <> · {g.data.start}{g.data.end ? `–${g.data.end}` : '–present'}</>}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
+  <section class="section bg-soft">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Support</span>
+        <h2>Funding</h2>
+        <p>Our work is made possible by the generous support of public and private funders.</p>
       </div>
-    </section>
-  )}
+      <div class="join-grid">
+        {funding.map((g, i) => (
+          <article class="join-card" data-reveal data-delay={i % 3}>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem">
+              <span class="r-num" style="color:var(--venous-soft); font-size:.85rem">{g.data.grant}</span>
+              {g.data.active && <span class="tag" style="background:rgba(34,211,238,.15); color:var(--oxygen)">Active</span>}
+            </div>
+            <h3 style="font-size:1.1rem; margin-top:.6rem">
+              {g.data.url ? <a href={g.data.url} target="_blank" rel="noopener" style="color:var(--ink)">{g.data.title}</a> : g.data.title}
+            </h3>
+            <p style="margin-top:.5rem; font-size:.95rem">
+              {g.data.agency}{g.data.role ? ` · ${g.data.role}` : ""}{g.data.start ? ` · since ${g.data.start}` : ""}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-ink">
+    <div class="container" style="text-align:center; max-width:680px">
+      <span class="eyebrow" style="color:var(--oxygen); justify-content:center" data-reveal>Our commitment</span>
+      <h2 style="margin-top:.9rem" data-reveal>Equity in science and medicine</h2>
+      <p style="margin-top:1rem; font-size:1.12rem" data-reveal data-delay="1">
+        Across every program, we are committed to equity in education, science, and medicine —
+        training the next generation of physician-scientists and ensuring the benefits of discovery
+        reach the communities most affected by stroke and dementia.
+      </p>
+      <div style="margin-top:2rem" data-reveal data-delay="2">
+        <a class="btn btn-on-ink" href="/join/">Join the lab</a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

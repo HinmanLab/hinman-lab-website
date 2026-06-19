@@ -1,40 +1,50 @@
 ---
-const year = new Date().getFullYear();
+import site from "../data/site.json";
+const year = 2026;
 ---
 
-<footer class="mt-24 border-t border-[color:var(--color-rule)] bg-[color:var(--color-tint)]">
-  <div class="mx-auto max-w-6xl px-5 py-12 sm:px-8">
-    <div class="grid grid-cols-1 gap-8 sm:grid-cols-3">
+<footer class="footer">
+  <div class="container">
+    <div class="top">
       <div>
-        <p class="font-serif text-lg text-[color:var(--color-ink)]">The Hinman Lab</p>
-        <p class="mt-2 text-sm text-[color:var(--color-muted)]">
-          UCLA Department of Neurology<br />
-          David Geffen School of Medicine
+        <div class="brand" style="font-size:1.25rem">
+          <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="19" stroke="#4f46e5" stroke-width="2" />
+            <path d="M12 27c0-6 4-7 8-7s8-1 8-7M12 13c0 6 4 7 8 7" stroke="#22d3ee" stroke-width="2.4" stroke-linecap="round" />
+            <circle cx="12" cy="27" r="2.6" fill="#e11d48" />
+            <circle cx="28" cy="13" r="2.6" fill="#22d3ee" />
+          </svg>
+          <span>{site.name}</span>
+        </div>
+        <p style="margin-top:.9rem; max-width:340px; font-size:.95rem;">
+          {site.institution}. Translational neuroscience in stroke and dementia.
         </p>
+        <div class="social">
+          <a href={site.social.twitter} aria-label="Twitter / X" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.9 22H3l7-8L2 2h6.2l4.2 5.6L18.2 2Zm-2.1 18h1.6L8 3.8H6.3L16.1 20Z"/></svg>
+          </a>
+          <a href={site.social.linkedin} aria-label="LinkedIn" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm6 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05C20.4 8.65 22 10.6 22 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9V9Z"/></svg>
+          </a>
+          <a href={site.social.pubmed} aria-label="PubMed" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M12 5a4 4 0 0 0-4-4H4v14h4a4 4 0 0 1 4 4M12 5a4 4 0 0 1 4-4h4v14h-4a4 4 0 0 0-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </div>
-      <div>
-        <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--color-faint)]">Contact</p>
-        <p class="mt-2 text-sm text-[color:var(--color-muted)]">
-          <a href="tel:310-825-7802" class="no-underline">310-825-7802</a><br />
-          <a href="/contact/" class="no-underline">Get in touch</a>
-        </p>
-      </div>
-      <div>
-        <p class="text-xs uppercase tracking-[0.18em] text-[color:var(--color-faint)]">Funding</p>
-        <p class="mt-2 text-sm text-[color:var(--color-muted)]">
-          Supported by the National Institutes of Health (NINDS, NIA) and private foundation partners.
-        </p>
-      </div>
+
+      <nav class="footer-links" aria-label="Footer">
+        <a href="/research/">Research</a>
+        <a href="/publications/">Publications</a>
+        <a href="/team/">Team</a>
+        <a href="/news/">News</a>
+        <a href="/join/">Join Us</a>
+        <a href="/#contact">Contact</a>
+      </nav>
     </div>
-    <div class="mt-10 flex flex-col items-start justify-between gap-3 border-t border-[color:var(--color-rule)] pt-6 text-xs text-[color:var(--color-faint)] sm:flex-row sm:items-center">
-      <p>© {year} The Hinman Lab · UCLA</p>
-      <p>
-        <a href="https://www.linkedin.com/in/jason-hinman-5a73a441/" class="no-underline">LinkedIn</a>
-        <span class="px-2">·</span>
-        <a href="https://twitter.com/HinmanLabUCLA" class="no-underline">X / Twitter</a>
-        <span class="px-2">·</span>
-        <a href="https://orcid.org/0000-0002-0872-5044" class="no-underline">ORCID</a>
-      </p>
+
+    <div class="bottom">
+      <span>© {year} {site.name} · UCLA Department of Neurology</span>
+      <span>Los Angeles, California</span>
     </div>
   </div>
 </footer>

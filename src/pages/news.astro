@@ -1,50 +1,39 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection, render } from 'astro:content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
 
-const all = await getCollection('news');
-const sorted = all.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const rendered = await Promise.all(sorted.map(async (n) => ({ item: n, Content: (await render(n)).Content })));
+const news = (await getCollection("news")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+const rendered = await Promise.all(
+  news.map(async (n) => ({ ...n, Content: (await render(n)).Content }))
+);
 ---
 
-<BaseLayout title="News" description="Updates from the Hinman Lab.">
-  <section class="border-b border-[color:var(--color-rule)]">
-    <div class="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-20">
-      <p class="text-xs uppercase tracking-[0.22em] text-[color:var(--color-faint)]">News</p>
-      <h1 class="mt-3 font-serif text-4xl tracking-tight sm:text-5xl">Lab news &amp; updates</h1>
-      <p class="mt-4 max-w-2xl text-[color:var(--color-muted)]">
-        Awards, papers, talks, and people changes.
-      </p>
+<BaseLayout title="News" description="News and updates from the Hinman Lab.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="color:var(--oxygen)">News</span>
+      <h1>Lab news &amp; updates</h1>
+      <p>Recent happenings, new papers, grants, and milestones from the lab.</p>
     </div>
   </section>
 
-  <section>
-    <div class="mx-auto max-w-4xl px-5 py-12 sm:px-8 sm:py-16">
-      {rendered.length === 0 ? (
-        <p class="text-[color:var(--color-muted)]">No news posts yet. Check back soon.</p>
-      ) : (
-        <ul class="space-y-12">
-          {rendered.map(({ item, Content }) => (
-            <li class="border-t border-[color:var(--color-rule)] pt-6">
-              <p class="text-xs uppercase tracking-[0.14em] text-[color:var(--color-faint)]">
-                {item.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-              </p>
-              <h2 class="mt-2 font-serif text-2xl tracking-tight">{item.data.title}</h2>
-              {item.data.summary && (
-                <p class="mt-2 text-[color:var(--color-muted)]">{item.data.summary}</p>
-              )}
-              <div class="prose mt-4 max-w-none text-[color:var(--color-ink)]">
-                <Content />
-              </div>
-              {item.data.link && (
-                <p class="mt-3 text-sm">
-                  <a href={item.data.link} class="no-underline" rel="external noopener">Read more →</a>
-                </p>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
+  <section class="section">
+    <div class="container" style="max-width:760px">
+      {rendered.map((n, i) => (
+        <article class="r-card" style="margin-bottom:1.4rem" data-reveal data-delay={i % 3}>
+          <time class="r-tagline" style="font-size:.9rem">{fmt(n.data.date)}</time>
+          <h2 style="font-size:1.5rem; margin:.4rem 0 .2rem">
+            {n.data.link ? <a href={n.data.link} target="_blank" rel="noopener">{n.data.title}</a> : n.data.title}
+          </h2>
+          {n.data.summary && <p style="margin-top:.4rem">{n.data.summary}</p>}
+          <div style="margin-top:.8rem; color:var(--text-soft)"><n.Content /></div>
+        </article>
+      ))}
+      {rendered.length === 0 && <p>No news yet — check back soon.</p>}
     </div>
   </section>
 </BaseLayout>

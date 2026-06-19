@@ -1,146 +1,186 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import VesselField from "../components/VesselField.astro";
+import site from "../data/site.json";
+import research from "../data/research.json";
+import { getCollection } from "astro:content";
 
-const allPubs = await getCollection('publications');
-const sortedPubs = allPubs.sort((a, b) => {
-  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
-  return (b.data.month ?? '').localeCompare(a.data.month ?? '');
-});
-const latestPubs = sortedPubs.slice(0, 3);
+const team = await getCollection("team");
+const pubsAll = await getCollection("publications");
+const pi = team.find((m) => m.data.group === "PI")!;
+const piBio = pi.body?.replace(/\s+/g, " ").trim() ?? "";
 
-const allNews = await getCollection('news');
-const latestNews = allNews
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+const featured = pubsAll.filter((p) => p.data.featured).slice(0, 4);
+const pubLink = (d: any): string =>
+  d.url ?? (d.doi ? `https://doi.org/${d.doi}` : d.pmid ? `https://pubmed.ncbi.nlm.nih.gov/${d.pmid}/` : "#");
 
-const researchAreas = (await getCollection('research'))
-  .sort((a, b) => a.data.order - b.data.order)
-  .slice(0, 3);
+// live counts feed the animated stat band
+const memberCount = team.filter((m) => m.data.group !== "PI").length;
+const stats = research.stats.map((s) =>
+  s.label.includes("publication") ? { ...s, value: pubsAll.length }
+  : s.label.includes("member") ? { ...s, value: memberCount }
+  : s
+);
 ---
 
-<BaseLayout title="The Hinman Lab — UCLA Neurology">
-  <!-- Hero -->
-  <section class="border-b border-[color:var(--color-rule)]">
-    <div class="mx-auto max-w-6xl px-5 py-20 sm:px-8 sm:py-28">
-      <p class="text-xs uppercase tracking-[0.22em] text-[color:var(--color-faint)]">
-        UCLA · David Geffen School of Medicine
-      </p>
-      <h1 class="mt-4 max-w-3xl text-4xl font-semibold leading-tight tracking-tight text-[color:var(--color-ink)] sm:text-5xl">
-        Repairing the brain after stroke. Halting neurodegeneration.
-      </h1>
-      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-[color:var(--color-muted)]">
-        The Hinman Lab is a translational neuroscience group studying the molecular pathways
-        that drive the two most common neurologic disorders &mdash; <strong>stroke</strong> and
-        <strong>dementia</strong> &mdash; and the substantial overlap between them.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="/research/" class="inline-flex items-center rounded-md bg-[color:var(--color-accent)] px-5 py-2.5 text-sm font-medium text-white no-underline hover:bg-[color:var(--color-accent-hover)]">
-          Our research →
-        </a>
-        <a href="/publications/" class="inline-flex items-center rounded-md border border-[color:var(--color-rule)] px-5 py-2.5 text-sm font-medium text-[color:var(--color-ink)] no-underline hover:border-[color:var(--color-accent)]">
-          Publications
-        </a>
+<BaseLayout>
+  <!-- HERO -->
+  <header class="hero">
+    <VesselField />
+    <span class="hero-glow g1"></span>
+    <span class="hero-glow g2"></span>
+    <div class="container">
+      <div class="hero-inner">
+        <span class="hero-badge"><span class="dot"></span> {site.institution}</span>
+        <h1>
+          Where the brain meets<br />
+          <span class="gradient-text">its blood vessels.</span>
+        </h1>
+        <p class="lead">{site.description}</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="/research/">
+            Explore our research
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-on-ink" href="/team/">Meet the lab</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+  </header>
+
+  <!-- STATS -->
+  <section class="section-tight">
+    <div class="container">
+      <div class="stats" data-reveal>
+        {stats.map((s) => (
+          <div class="stat">
+            <div class="num">
+              <span data-count={s.value} data-raw={s.raw ? "true" : "false"}>0</span><span class="suffix">{s.suffix}</span>
+            </div>
+            <div class="lbl">{s.label}</div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Research areas -->
-  {researchAreas.length > 0 && (
-    <section class="border-b border-[color:var(--color-rule)]">
-      <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-        <div class="flex items-end justify-between">
-          <h2 class="text-2xl font-semibold tracking-tight">Research focus</h2>
-          <a href="/research/" class="text-sm no-underline">All research →</a>
+  <!-- ABOUT / PI -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="split">
+        <div data-reveal>
+          <span class="eyebrow">The Lab</span>
+          <h2>Decoding the vascular roots of stroke and dementia</h2>
+          <p class="lead-block" style="margin-top:1.2rem">
+            The Hinman Lab is a translational neuroscience laboratory exploring the molecular
+            pathways behind the brain's two most common disorders. We work across scales — from
+            single glial cells and the oligovascular niche to human blood biomarkers — to understand
+            how cerebrovascular dysfunction injures white matter and drives cognitive decline.
+          </p>
+          <p style="margin-top:1rem">
+            Our discoveries span neurovascular signaling, remyelination after stroke, 3D models of
+            intracranial atherosclerosis, and biomarkers that are reshaping how vascular contributions
+            to dementia are measured in the clinic.
+          </p>
+          <div class="hero-cta" style="margin-top:1.8rem">
+            <a class="btn btn-ghost" href="/research/">Our research programs</a>
+          </div>
         </div>
-        <div class="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
-          {researchAreas.map((area) => (
-            <article class="border-t border-[color:var(--color-ink)] pt-4">
-              <h3 class="text-lg font-semibold tracking-tight">{area.data.title}</h3>
-              <p class="mt-2 text-sm leading-relaxed text-[color:var(--color-muted)]">
-                {area.data.summary}
-              </p>
-            </article>
-          ))}
+        <div class="portrait-wrap" data-reveal data-delay="1">
+          <img class="portrait" src={pi.data.photo} alt={pi.data.name} loading="lazy" width="500" height="640" />
+          <div class="portrait-tag">
+            <strong>{pi.data.name}</strong>
+            <span>{site.pi.role} · {site.institution}</span>
+          </div>
         </div>
       </div>
-    </section>
-  )}
+    </div>
+  </section>
 
-  <!-- Latest publication / news -->
-  <section class="border-b border-[color:var(--color-rule)]">
-    <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-      <div class="grid grid-cols-1 gap-12 md:grid-cols-2">
-        <div>
-          <div class="flex items-end justify-between">
-            <h2 class="text-2xl font-semibold tracking-tight">Recent publications</h2>
-            <a href="/publications/" class="text-sm no-underline">All →</a>
-          </div>
-          <ul class="mt-6 space-y-6">
-            {latestPubs.map((pub) => (
-              <li class="border-t border-[color:var(--color-rule)] pt-4">
-                <p class="text-xs uppercase tracking-[0.14em] text-[color:var(--color-faint)]">
-                  {pub.data.journal} · {pub.data.year}
-                </p>
-                <h3 class="mt-1 font-serif text-base leading-snug text-[color:var(--color-ink)]">
-                  <a href={`/publications/#${pub.id}`} class="no-underline hover:underline">
-                    {pub.data.title.replace(/\.$/, '')}
-                  </a>
-                </h3>
-                <p class="mt-1 text-xs leading-relaxed text-[color:var(--color-muted)]">
-                  {pub.data.authors}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <div class="flex items-end justify-between">
-            <h2 class="text-2xl font-semibold tracking-tight">Lab news</h2>
-            <a href="/news/" class="text-sm no-underline">All →</a>
-          </div>
-          {latestNews.length > 0 ? (
-            <ul class="mt-6 space-y-6">
-              {latestNews.map((item) => (
-                <li class="border-t border-[color:var(--color-rule)] pt-4">
-                  <p class="text-xs uppercase tracking-[0.14em] text-[color:var(--color-faint)]">
-                    {item.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                  </p>
-                  <h3 class="mt-1 font-serif text-base leading-snug text-[color:var(--color-ink)]">
-                    {item.data.title}
-                  </h3>
-                  {item.data.summary && (
-                    <p class="mt-1 text-sm leading-relaxed text-[color:var(--color-muted)]">
-                      {item.data.summary}
-                    </p>
-                  )}
-                </li>
-              ))}
+  <!-- RESEARCH PREVIEW -->
+  <section class="section bg-soft" id="research">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Research</span>
+        <h2>Four programs, one question</h2>
+        <p>{research.intro}</p>
+      </div>
+      <div class="research-grid">
+        {research.areas.map((a, i) => (
+          <article class="r-card" data-reveal data-delay={(i % 2) + 1}>
+            <span class="r-num">0{i + 1}</span>
+            <h3>{a.title}</h3>
+            <div class="r-tagline">{a.tagline}</div>
+            <p>{a.description}</p>
+            <ul class="r-highlights">
+              {a.highlights.map((h) => <li>{h}</li>)}
             </ul>
-          ) : (
-            <p class="mt-6 text-sm text-[color:var(--color-muted)]">
-              Updates from the lab will appear here soon.
-            </p>
-          )}
-        </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Join CTA -->
-  <section>
-    <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
-      <div class="rounded-lg border border-[color:var(--color-rule)] bg-[color:var(--color-tint)] p-8 sm:p-12">
-        <h2 class="font-serif text-2xl tracking-tight">Join the lab</h2>
-        <p class="mt-3 max-w-2xl text-[color:var(--color-muted)]">
-          We are currently recruiting postdoctoral fellows, staff research associates, and UCLA
-          undergraduates interested in cerebrovascular biology, neurodegeneration, and translational
-          stroke research.
-        </p>
-        <a href="/join/" class="mt-5 inline-flex items-center text-sm font-medium no-underline">
-          Open positions →
+  <!-- FEATURED PUBLICATIONS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Selected Work</span>
+        <h2>Recent highlights</h2>
+        <p>A selection of recent publications. See the full list on the publications page.</p>
+      </div>
+      <div class="pub-featured">
+        {featured.map((p, i) => (
+          <a class="pub-feat-card" href={pubLink(p.data)} target="_blank" rel="noopener" data-reveal data-delay={i % 3}>
+            <span class="yr">{p.data.year}</span>
+            <div class="jrnl">{p.data.journal}</div>
+            <h3>{p.data.title}</h3>
+            <div class="auth">{p.data.authors}</div>
+          </a>
+        ))}
+      </div>
+      <div data-reveal>
+        <a class="btn btn-ghost" href="/publications/">
+          View all publications
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-card" data-reveal>
+        <div class="split" style="align-items:center">
+          <div>
+            <span class="eyebrow" style="color:var(--oxygen)">Get in touch</span>
+            <h2 style="margin-top:.8rem">Interested in collaborating or joining?</h2>
+            <p style="color:#aab6d6; margin-top:1rem; font-size:1.1rem">
+              We welcome inquiries from prospective trainees, collaborators, and partners in vascular
+              brain health. Reach out — we'd love to hear from you.
+            </p>
+            <div class="hero-cta" style="margin-top:1.8rem">
+              <a class="btn btn-primary" href={`mailto:${site.contact.email}`}>Email the lab</a>
+              <a class="btn btn-on-ink" href="/join/">Open positions</a>
+            </div>
+          </div>
+          <div class="contact-rows">
+            <div class="contact-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM4 7l8 6 8-6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><div class="lbl">Email</div><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></div>
+            </div>
+            <div class="contact-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><div class="lbl">Phone</div><a href={`tel:${site.contact.phone}`}>{site.contact.phone}</a></div>
+            </div>
+            <div class="contact-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+              <div><div class="lbl">Location</div><span class="val">{site.contact.address}</span></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

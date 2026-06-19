@@ -3,7 +3,7 @@ name: "Grace Prochilo"
 role: "Staff Research Associate"
 group: "Staff"
 order: 20
-photo: "https://static.wixstatic.com/media/af1408_0562aaa940604ad6ade002e6c397cc30~mv2.jpg/v1/fill/w_400,h_400,al_c,q_85/Prochilo_headshot.jpg"
+photo: "/images/team/grace-prochilo.jpg"
 linkedin: "https://www.linkedin.com/in/grace-prochilo-4b99361ab/"
 ---
 

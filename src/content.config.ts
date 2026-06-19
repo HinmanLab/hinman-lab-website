@@ -63,14 +63,4 @@ const funding = defineCollection({
   }),
 });
 
-const research = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/research' }),
-  schema: z.object({
-    title: z.string(),
-    order: z.number().optional().default(100),
-    summary: z.string(),
-    image: z.string().nullable().optional(),
-  }),
-});
-
-export const collections = { publications, team, news, funding, research };
+export const collections = { publications, team, news, funding };

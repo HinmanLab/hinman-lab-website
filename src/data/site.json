@@ -1,0 +1,23 @@
+{
+  "name": "The Hinman Lab",
+  "shortName": "Hinman Lab",
+  "tagline": "Translational neuroscience at the intersection of the brain and its blood vessels.",
+  "institution": "Department of Neurology, UCLA",
+  "pi": {
+    "name": "Jason D. Hinman, MD, PhD",
+    "role": "Principal Investigator",
+    "shortName": "Dr. Hinman"
+  },
+  "description": "A translational neuroscience laboratory at UCLA studying the molecular pathways that drive the two most common neurologic disorders: stroke and dementia.",
+  "contact": {
+    "email": "jhinman@mednet.ucla.edu",
+    "phone": "310-825-7802",
+    "address": "Department of Neurology, David Geffen School of Medicine at UCLA, Los Angeles, CA"
+  },
+  "social": {
+    "twitter": "https://twitter.com/HinmanLabUCLA",
+    "linkedin": "https://www.linkedin.com/in/jason-hinman-5a73a441/",
+    "orcid": "https://orcid.org/0000-0002-0872-5044",
+    "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=Hinman+JD%5Bau%5D"
+  }
+}
