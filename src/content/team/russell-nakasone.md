@@ -1,6 +1,6 @@
 ---
 name: "Russell Nakasone"
-role: "Graduate Student Researcher"
+role: "Biochemistry Graduate Student"
 group: "Grad Student"
 order: 20
 photo: "/images/team/russell-nakasone.jpg"
