@@ -1,5 +1,5 @@
 ---
-name: "Roy McReynolds III"
+name: "Roy McReynolds III, PhD"
 role: "NSIDP Graduate Student"
 group: "Grad Student"
 former: "member"
