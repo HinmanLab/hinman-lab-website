@@ -1,5 +1,5 @@
 ---
-name: "Tirth Patel"
+name: "Tirth Patel, MD/PhD"
 role: "Postdoctoral Fellow"
 group: "Alumni"
 order: 100
