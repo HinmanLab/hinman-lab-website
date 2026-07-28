@@ -1,6 +1,6 @@
 ---
 name: "Jack Wang"
-role: "Former Lab Member"
+role: "Postdoctoral Fellow"
 group: "Alumni"
 order: 100
 photo: "/images/team/jack-wang.jpg"
