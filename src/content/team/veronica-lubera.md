@@ -7,5 +7,4 @@ order: 30
 photo: "/images/team/veronica-lubera.jpg"
 ---
 
-Veronica studies pathways in oligodendrocytes that promote remyelination after stroke, and is
-preparing for a future career as a physician-scientist.
+Veronica completed her B.S. in Neuroscience at UCLA where she was a Schiebel Scholar. She worked on pathways in oligodendrocytes that promote remyelination after stroke. She is presently completing her MD/PhD at UCI. 
