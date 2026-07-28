@@ -30,13 +30,14 @@ const groupLabel: Record<string, string> = {
 };
 
 const others = all
-  .filter((m) => m.data.group !== "PI")
+  .filter((m) => m.data.group !== "PI" && !m.data.former)
   .sort((a, b) => {
     const g = groupOrder.indexOf(a.data.group) - groupOrder.indexOf(b.data.group);
     return g !== 0 ? g : (a.data.order ?? 100) - (b.data.order ?? 100);
   });
 
 const presentGroups = groupOrder.filter((g) => others.some((m) => m.data.group === g));
+const hasFormer = all.some((m) => m.data.former);
 
 // deterministic gradient avatars for members without a photo
 const palettes = [
@@ -114,6 +115,15 @@ const paletteFor = (name: string) => {
           );
         })}
       </div>
+
+      {hasFormer && (
+        <div style="margin-top:3rem; text-align:center" data-reveal>
+          <a class="btn btn-ghost" href="/former-members/">
+            See our former lab members
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      )}
     </div>
   </section>
 

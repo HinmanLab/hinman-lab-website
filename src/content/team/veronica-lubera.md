@@ -2,6 +2,7 @@
 name: "Veronica Lubera"
 role: "Staff Research Associate"
 group: "Staff"
+former: "member"
 order: 30
 photo: "/images/team/veronica-lubera.jpg"
 ---

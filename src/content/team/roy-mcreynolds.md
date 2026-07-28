@@ -2,6 +2,7 @@
 name: "Roy McReynolds III"
 role: "NSIDP Doctoral Candidate"
 group: "Grad Student"
+former: "member"
 order: 10
 photo: "/images/team/roy-mcreynolds.jpg"
 ---

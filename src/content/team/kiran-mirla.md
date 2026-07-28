@@ -2,6 +2,7 @@
 name: "Kiran Mirla"
 role: "UCLA Undergraduate"
 group: "Undergraduate"
+former: "student"
 order: 10
 photo: "/images/team/kiran-mirla.jpg"
 ---

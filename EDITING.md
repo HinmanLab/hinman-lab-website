@@ -64,6 +64,7 @@ Folder: **`src/content/team/`** — one file per person.
 - `group` must be one of: `PI`, `Project Scientist`, `Postdoc`, `Grad Student`, `Clinical`, `Staff`, `Undergraduate`, `Alumni`.
 - To **add someone**, copy an existing file (GitHub: open a file → "Copy raw" isn't enough; easiest is "Add file → Create new file" and paste an existing one's contents, then edit).
 - **Photos:** upload a square image to `public/images/team/` and set `photo: "/images/team/their-name.jpg"`. Leave `photo: null` to show colored initials.
+- **Move someone to the Former Lab Members page:** add a line `former: "member"` (or `former: "student"`) to their settings block. They'll drop off the main Team page and appear on `/former-members/`. Remove the line to bring them back.
 
 ### 📰 News
 Folder: **`src/content/news/`** — one file per post.

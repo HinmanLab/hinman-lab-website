@@ -2,6 +2,7 @@
 name: "Alissa Pfeffer"
 role: "UCLA Undergraduate"
 group: "Undergraduate"
+former: "student"
 order: 20
 photo: "/images/team/alissa-pfeffer.jpg"
 ---

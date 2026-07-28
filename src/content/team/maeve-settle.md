@@ -2,6 +2,7 @@
 name: "Maeve Settle"
 role: "UCLA Undergraduate"
 group: "Undergraduate"
+former: "student"
 order: 50
 photo: "/images/team/maeve-settle.jpg"
 ---

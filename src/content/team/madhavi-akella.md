@@ -2,6 +2,7 @@
 name: "Madhavi Akella"
 role: "UCLA Undergraduate"
 group: "Undergraduate"
+former: "student"
 order: 30
 photo: "/images/team/madhavi-akella.jpg"
 linkedin: "https://www.linkedin.com/in/madhavi-akella/"

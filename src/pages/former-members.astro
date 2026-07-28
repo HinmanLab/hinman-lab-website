@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const all = await getCollection("team");
+const bio = (entry: any) => entry.body?.replace(/\s+/g, " ").trim() ?? "";
+
+const sortByName = (a: any, b: any) => a.data.name.localeCompare(b.data.name);
+const formerMembers = all.filter((m) => m.data.former === "member").sort(sortByName);
+const formerStudents = all.filter((m) => m.data.former === "student").sort(sortByName);
+
+const palettes = [
+  ["#e11d48", "#fb7185"], ["#4f46e5", "#818cf8"], ["#0891b2", "#22d3ee"],
+  ["#7c3aed", "#a78bfa"], ["#db2777", "#f472b6"], ["#2563eb", "#60a5fa"],
+];
+const initials = (name: string) =>
+  name.replace(/["'].*?["']/g, " ").replace(/,.*$/, "").trim()
+    .split(/\s+/).filter((w) => /[A-Za-z]/.test(w[0])).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+const paletteFor = (name: string) => {
+  let h = 0;
+  for (const c of name) h = (h + c.charCodeAt(0)) % palettes.length;
+  return palettes[h];
+};
+
+const sections = [
+  { label: "Former Lab Members", people: formerMembers },
+  { label: "Former Students", people: formerStudents },
+].filter((s) => s.people.length > 0);
+---
+
+<BaseLayout title="Former Lab Members" description="Alumni of the Hinman Lab.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" style="color:var(--oxygen)">Alumni</span>
+      <h1>Former lab members</h1>
+      <p>
+        We're grateful to the scientists and trainees who have been part of the lab and gone on to
+        the next stage of their careers.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div data-reveal style="margin-bottom:2rem">
+        <a href="/team/" style="color:var(--venous); font-weight:600; font-family:var(--font-display)">← Back to current team</a>
+      </div>
+
+      {sections.map((section) => (
+        <div style="margin-bottom:clamp(2.5rem,5vw,4rem)">
+          <div class="section-head" data-reveal style="margin-bottom:1.6rem">
+            <span class="eyebrow">{section.label}</span>
+          </div>
+          <div class="team-grid">
+            {section.people.map((m, i) => {
+              const [c1, c2] = paletteFor(m.data.name);
+              return (
+                <article class="member" data-reveal data-delay={i % 3}>
+                  {m.data.photo ? (
+                    <img class="avatar" src={m.data.photo} alt={m.data.name} loading="lazy" width="112" height="112" />
+                  ) : (
+                    <div class="avatar-fallback" style={`background:linear-gradient(135deg, ${c1}, ${c2})`}>
+                      {initials(m.data.name)}
+                    </div>
+                  )}
+                  <h3>{m.data.name}</h3>
+                  {m.data.role && <div class="role">{m.data.role}</div>}
+                  {bio(m) && bio(m) !== "Bio to be added." && <p class="bio">{bio(m)}</p>}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

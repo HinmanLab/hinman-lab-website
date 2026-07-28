@@ -36,6 +36,8 @@ const team = defineCollection({
     orcid: z.string().nullable().optional(),
     google_scholar: z.string().url().nullable().optional(),
     easton_url: z.string().url().nullable().optional(),
+    // Set to 'member' or 'student' to move someone to the Former Lab Members page.
+    former: z.enum(['member', 'student']).nullable().optional(),
   }),
 });
 
