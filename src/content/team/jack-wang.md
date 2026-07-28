@@ -1,5 +1,5 @@
 ---
-name: "Jack Wang"
+name: "Jack Wang, MD/PhD"
 role: "Postdoctoral Fellow"
 group: "Alumni"
 order: 100
