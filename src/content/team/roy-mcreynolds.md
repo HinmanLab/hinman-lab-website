@@ -1,12 +1,10 @@
 ---
-name: "Roy McReynolds III"
-role: "NSIDP Doctoral Candidate"
+name: "Roy McReynolds III, PhD"
+role: "NSIDP Graduate Student"
 group: "Grad Student"
 former: "member"
 order: 10
 photo: "/images/team/roy-mcreynolds.jpg"
 ---
 
-Roy is a UCLA Neuroscience graduate student and recipient of the 2021 Black Men's Brain Health
-Fellowship. His dissertation focuses on molecular pathways driving phenotypic changes in
-astrocytes in Alzheimer's disease.
+Roy completed his PhD in Neuroscience from UCLA in 2025 with a focus on the role of astrocyte dynamics in tauopathy and Alzheimer's disease. He is presently a postdoctoral fellow at NINDS. 
