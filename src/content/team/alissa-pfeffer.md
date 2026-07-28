@@ -7,5 +7,4 @@ order: 20
 photo: "/images/team/alissa-pfeffer.jpg"
 ---
 
-Alissa is a Neuroscience major with a minor in Musicology. She joined the lab in Summer 2022 and
-plans to pursue a career in medicine.
+Alissa completed her B.S. in Neuroscience with a minor in Musicology at UCLA in 2026. She is pursuing a career in medicine. 
