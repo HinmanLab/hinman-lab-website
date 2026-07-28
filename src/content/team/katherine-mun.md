@@ -1,6 +1,6 @@
 ---
-name: "Katherine Mun"
-role: "Former Lab Member"
+name: "Katherine Mun, MD"
+role: "Clinical Fellow"
 group: "Alumni"
 order: 100
 photo: "/images/team/katherine-mun.jpg"
