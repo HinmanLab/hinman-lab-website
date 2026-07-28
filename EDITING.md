@@ -27,11 +27,15 @@ Repo: https://github.com/HinmanLab/hinman-lab-website
 
 ## Where each section lives
 
+### ✍️ Page copy (home, research page, join page) — all in one file
+File: **`src/data/copy.json`**
+This holds the section text that used to live in code: the home **big headline**, the
+**"The Lab"** paragraphs, the **contact** wording, the **Research page** headline + the
+"Equity in science and medicine" statement, and the **Join Us** hero, role cards, and
+"how to apply" text. Just edit the words inside the `"quotes"`.
+
 ### 🏠 Home page
-File: **`src/pages/index.astro`**
-- **Big headline** ("Where the brain meets its blood vessels") and the sentence under it.
-- **"The Lab" section** — the two paragraphs describing the lab.
-- **"Get in touch" / Contact** wording at the bottom.
+- Section text (headline, "The Lab", contact): **`src/data/copy.json`** (see above).
 - The PI photo card pulls its name/title/bio from the team file (see Team below).
 
 ### 🔬 Research / Projects
@@ -47,7 +51,7 @@ Each program has a `pmids` list. Leave it empty (`[]`) to let the site auto-pick
 ```
 You can find a paper's PubMed ID (PMID) on the Publications page — it's shown next to each paper ("PMID 36543124"). Up to 4 are displayed per program.
 
-The **"Equity in science and medicine"** statement at the bottom of the Research page is in `src/pages/research.astro`.
+The Research page's **headline**, **Funding** heading, and the **"Equity in science and medicine"** statement are in `src/data/copy.json` (under `research`).
 
 ### 📚 Publications
 Folder: **`src/content/publications/`** — one file per paper.
@@ -71,8 +75,8 @@ Folder: **`src/content/news/`** — one file per post.
 - Copy an existing post to add a new one. The settings block has `title` and `date`; write the post below the `---`.
 
 ### 🤝 Join Us
-File: **`src/pages/join.astro`**
-- The intro, the four "who we're looking for" cards, and the "How to apply" text.
+File: **`src/data/copy.json`** (under `join`)
+- The hero intro, the four "who we're looking for" cards, and the "How to apply" text.
 
 ### ⚙️ Site-wide info (used everywhere)
 File: **`src/data/site.json`**

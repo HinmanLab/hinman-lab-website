@@ -1,0 +1,58 @@
+{
+  "_comment": "All the editable page text lives here. Change the words inside the quotes; keep the quotes, commas, and brackets. Projects live in research.json; people in src/content/team/; contact info in site.json.",
+  "home": {
+    "heroHeadlineTop": "Where the brain meets",
+    "heroHeadlineAccent": "its blood vessels.",
+    "aboutEyebrow": "The Lab",
+    "aboutHeading": "Decoding the vascular roots of stroke and dementia",
+    "aboutParagraphs": [
+      "The Hinman Lab is a translational neuroscience laboratory exploring the molecular pathways behind the brain's two most common disorders. We work across scales — from single glial cells and the oligovascular niche to human blood biomarkers — to understand how cerebrovascular dysfunction injures white matter and drives cognitive decline.",
+      "Our discoveries span neurovascular signaling, remyelination after stroke, 3D models of intracranial atherosclerosis, and biomarkers that are reshaping how vascular contributions to dementia are measured in the clinic."
+    ],
+    "researchPreviewEyebrow": "Research",
+    "researchPreviewHeading": "Four programs, one question",
+    "highlightsEyebrow": "Selected Work",
+    "highlightsHeading": "Recent highlights",
+    "highlightsText": "A selection of recent publications. See the full list on the publications page.",
+    "contactEyebrow": "Get in touch",
+    "contactHeading": "Interested in collaborating or joining?",
+    "contactText": "We welcome inquiries from prospective trainees, collaborators, and partners in vascular brain health. Reach out — we'd love to hear from you."
+  },
+  "research": {
+    "heroHeading": "From single vessels to the whole brain",
+    "fundingEyebrow": "Support",
+    "fundingHeading": "Funding",
+    "fundingText": "Our work is made possible by the generous support of public and private funders.",
+    "commitmentEyebrow": "Our commitment",
+    "commitmentHeading": "Equity in science and medicine",
+    "commitmentText": "Across every program, we are committed to equity in education, science, and medicine — training the next generation of physician-scientists and ensuring the benefits of discovery reach the communities most affected by stroke and dementia."
+  },
+  "join": {
+    "heroHeading": "Build the future of vascular brain health",
+    "heroText": "We are always looking for curious, driven people to join our team. We train scientists at every stage and are committed to equity in education, science, and medicine.",
+    "opportunitiesEyebrow": "Opportunities",
+    "opportunitiesHeading": "Who we're looking for",
+    "opportunitiesText": "If any of the paths below sound like you, we'd love to hear from you.",
+    "roles": [
+      {
+        "title": "Graduate Students",
+        "body": "UCLA graduate students (NSIDP and affiliated programs) interested in rotations on neurovascular biology, white matter injury, or biomarker discovery are encouraged to reach out."
+      },
+      {
+        "title": "Postdoctoral Fellows",
+        "body": "We welcome postdocs with backgrounds in neuroscience, vascular biology, bioinformatics, or bioengineering who want to bridge molecular discovery and clinical translation."
+      },
+      {
+        "title": "Undergraduates",
+        "body": "Motivated UCLA undergraduates can gain hands-on research experience in wet-lab, computational, and clinical projects. We value curiosity and commitment over prior experience."
+      },
+      {
+        "title": "Clinical & Research Staff",
+        "body": "Staff and clinical research associates interested in coordinating studies on vascular contributions to cognitive impairment and dementia are encouraged to apply."
+      }
+    ],
+    "applyEyebrow": "How to apply",
+    "applyHeading": "Reach out to Dr. Hinman",
+    "applyText": "Send a brief note about your background, interests, and what draws you to the lab, along with a CV. We review every inquiry."
+  }
+}

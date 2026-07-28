@@ -1,49 +1,33 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import site from "../data/site.json";
+import copy from "../data/copy.json";
 
-const paths = [
-  {
-    title: "Graduate Students",
-    body: "UCLA graduate students (NSIDP and affiliated programs) interested in rotations on neurovascular biology, white matter injury, or biomarker discovery are encouraged to reach out.",
-    icon: "M12 3 1 9l11 6 9-4.9V17h2V9L12 3Zm0 13.5L5 12.7v3.6c0 1.4 3.1 3.2 7 3.2s7-1.8 7-3.2v-3.6l-7 3.8Z",
-  },
-  {
-    title: "Postdoctoral Fellows",
-    body: "We welcome postdocs with backgrounds in neuroscience, vascular biology, bioinformatics, or bioengineering who want to bridge molecular discovery and clinical translation.",
-    icon: "M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4 0-7 2-7 4v2h10M16 11l2 2 4-4",
-  },
-  {
-    title: "Undergraduates",
-    body: "Motivated UCLA undergraduates can gain hands-on research experience in wet-lab, computational, and clinical projects. We value curiosity and commitment over prior experience.",
-    icon: "M12 3 1 9l11 6 9-4.9V17h2V9L12 3Z",
-  },
-  {
-    title: "Clinical & Research Staff",
-    body: "Staff and clinical research associates interested in coordinating studies on vascular contributions to cognitive impairment and dementia are encouraged to apply.",
-    icon: "M9 2h6v2h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3V2Zm3 7v6M9 12h6",
-  },
+// Icons stay in code; the text comes from copy.json (join.roles), matched by order.
+const icons = [
+  "M12 3 1 9l11 6 9-4.9V17h2V9L12 3Zm0 13.5L5 12.7v3.6c0 1.4 3.1 3.2 7 3.2s7-1.8 7-3.2v-3.6l-7 3.8Z",
+  "M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4 0-7 2-7 4v2h10M16 11l2 2 4-4",
+  "M12 3 1 9l11 6 9-4.9V17h2V9L12 3Z",
+  "M9 2h6v2h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h3V2Zm3 7v6M9 12h6",
 ];
+const paths = copy.join.roles.map((r, i) => ({ ...r, icon: icons[i] ?? icons[0] }));
 ---
 
 <BaseLayout title="Join Us" description="Join the Hinman Lab — opportunities for trainees and staff.">
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" style="color:var(--oxygen)">Join Us</span>
-      <h1>Build the future of vascular brain health</h1>
-      <p>
-        We are always looking for curious, driven people to join our team. We train scientists at
-        every stage and are committed to equity in education, science, and medicine.
-      </p>
+      <h1>{copy.join.heroHeading}</h1>
+      <p>{copy.join.heroText}</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
       <div class="section-head" data-reveal>
-        <span class="eyebrow">Opportunities</span>
-        <h2>Who we're looking for</h2>
-        <p>If any of the paths below sound like you, we'd love to hear from you.</p>
+        <span class="eyebrow">{copy.join.opportunitiesEyebrow}</span>
+        <h2>{copy.join.opportunitiesHeading}</h2>
+        <p>{copy.join.opportunitiesText}</p>
       </div>
 
       <div class="join-grid">
@@ -67,12 +51,9 @@ const paths = [
       <div class="contact-card" data-reveal>
         <div class="split" style="align-items:center">
           <div>
-            <span class="eyebrow" style="color:var(--oxygen)">How to apply</span>
-            <h2 style="margin-top:.8rem; color:#fff">Reach out to Dr. Hinman</h2>
-            <p style="color:#aab6d6; margin-top:1rem; font-size:1.1rem">
-              Send a brief note about your background, interests, and what draws you to the lab,
-              along with a CV. We review every inquiry.
-            </p>
+            <span class="eyebrow" style="color:var(--oxygen)">{copy.join.applyEyebrow}</span>
+            <h2 style="margin-top:.8rem; color:#fff">{copy.join.applyHeading}</h2>
+            <p style="color:#aab6d6; margin-top:1rem; font-size:1.1rem">{copy.join.applyText}</p>
             <div class="hero-cta" style="margin-top:1.8rem">
               <a class="btn btn-primary" href={`mailto:${site.contact.email}?subject=Joining the Hinman Lab`}>
                 Email the lab

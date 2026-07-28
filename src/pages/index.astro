@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import VesselField from "../components/VesselField.astro";
 import site from "../data/site.json";
 import research from "../data/research.json";
+import copy from "../data/copy.json";
 import { getCollection } from "astro:content";
 
 const team = await getCollection("team");
@@ -39,8 +40,8 @@ const stats = research.stats.map((s) =>
       <div class="hero-inner">
         <span class="hero-badge"><span class="dot"></span> {site.institution}</span>
         <h1>
-          Where the brain meets<br />
-          <span class="gradient-text">its blood vessels.</span>
+          {copy.home.heroHeadlineTop}<br />
+          <span class="gradient-text">{copy.home.heroHeadlineAccent}</span>
         </h1>
         <p class="lead">{site.description}</p>
         <div class="hero-cta">
@@ -76,19 +77,11 @@ const stats = research.stats.map((s) =>
     <div class="container">
       <div class="split" style="align-items:start">
         <div data-reveal>
-          <span class="eyebrow">The Lab</span>
-          <h2>Decoding the vascular roots of stroke and dementia</h2>
-          <p class="lead-block" style="margin-top:1.2rem">
-            The Hinman Lab is a translational neuroscience laboratory exploring the molecular
-            pathways behind the brain's two most common disorders. We work across scales — from
-            single glial cells and the oligovascular niche to human blood biomarkers — to understand
-            how cerebrovascular dysfunction injures white matter and drives cognitive decline.
-          </p>
-          <p style="margin-top:1rem">
-            Our discoveries span neurovascular signaling, remyelination after stroke, 3D models of
-            intracranial atherosclerosis, and biomarkers that are reshaping how vascular contributions
-            to dementia are measured in the clinic.
-          </p>
+          <span class="eyebrow">{copy.home.aboutEyebrow}</span>
+          <h2>{copy.home.aboutHeading}</h2>
+          {copy.home.aboutParagraphs.map((para, i) => (
+            <p class={i === 0 ? "lead-block" : ""} style={i === 0 ? "margin-top:1.2rem" : "margin-top:1rem"}>{para}</p>
+          ))}
           <div class="hero-cta" style="margin-top:1.8rem">
             <a class="btn btn-ghost" href="/research/">Our research programs</a>
           </div>
@@ -125,8 +118,8 @@ const stats = research.stats.map((s) =>
   <section class="section bg-soft" id="research">
     <div class="container">
       <div class="section-head" data-reveal>
-        <span class="eyebrow">Research</span>
-        <h2>Four programs, one question</h2>
+        <span class="eyebrow">{copy.home.researchPreviewEyebrow}</span>
+        <h2>{copy.home.researchPreviewHeading}</h2>
         <p>{research.intro}</p>
       </div>
       <div class="research-grid">
@@ -149,9 +142,9 @@ const stats = research.stats.map((s) =>
   <section class="section">
     <div class="container">
       <div class="section-head" data-reveal>
-        <span class="eyebrow">Selected Work</span>
-        <h2>Recent highlights</h2>
-        <p>A selection of recent publications. See the full list on the publications page.</p>
+        <span class="eyebrow">{copy.home.highlightsEyebrow}</span>
+        <h2>{copy.home.highlightsHeading}</h2>
+        <p>{copy.home.highlightsText}</p>
       </div>
       <div class="pub-featured">
         {featured.map((p, i) => (
@@ -178,12 +171,9 @@ const stats = research.stats.map((s) =>
       <div class="contact-card" data-reveal>
         <div class="split" style="align-items:center">
           <div>
-            <span class="eyebrow" style="color:var(--oxygen)">Get in touch</span>
-            <h2 style="margin-top:.8rem">Interested in collaborating or joining?</h2>
-            <p style="color:#aab6d6; margin-top:1rem; font-size:1.1rem">
-              We welcome inquiries from prospective trainees, collaborators, and partners in vascular
-              brain health. Reach out — we'd love to hear from you.
-            </p>
+            <span class="eyebrow" style="color:var(--oxygen)">{copy.home.contactEyebrow}</span>
+            <h2 style="margin-top:.8rem">{copy.home.contactHeading}</h2>
+            <p style="color:#aab6d6; margin-top:1rem; font-size:1.1rem">{copy.home.contactText}</p>
             <div class="hero-cta" style="margin-top:1.8rem">
               <a class="btn btn-primary" href={`mailto:${site.contact.email}`}>Email the lab</a>
               <a class="btn btn-on-ink" href="/join/">Open positions</a>
